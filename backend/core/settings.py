@@ -37,9 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third-party modules required for your API and security
+    'rest_framework',
+    'corsheaders',
+    
+    # Your custom local application
+    'main',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # MUST be at the top! for CORS to work properly
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -115,3 +122,32 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# For local development, allow all origins. 
+# We will lock this down to your Vercel URL before final grading.
+CORS_ALLOW_ALL_ORIGINS = True
+
+from datetime import timedelta
+import os
+
+# Configure Django REST Framework to use JWT by default
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+# SimpleJWT settings (Token lifespan configuration)
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',), # Looks like: "Authorization: Bearer <token>"
+}
+
+# Configure Media Settings for User/Manager Uploaded files (like Gallery Images)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

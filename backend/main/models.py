@@ -37,6 +37,11 @@ class Inquiry(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='NEW')
     created_at = models.DateTimeField(auto_now_add=True)
 
+    # Add this section to fix the admin dashboard spelling
+    class Meta:
+        verbose_name = "Inquiry"
+        verbose_name_plural = "Inquiries"
+
     def __str__(self):
         return f"Inquiry from {self.client_name} for {self.event_date}"
     
