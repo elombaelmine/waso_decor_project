@@ -1,0 +1,16 @@
+# Django / Python
+backend/venv/
+*.pyc
+__pycache__/
+backend/db.sqlite3
+backend/media/
+
+# Angular / Node
+frontend/waso-ui/node_modules/
+frontend/waso-ui/.angular/
+frontend/waso-ui/dist/
+
+# IDEs and OS files
+.vscode/
+.DS_Store
+Thumbs.db
