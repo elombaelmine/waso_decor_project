@@ -1,0 +1,52 @@
+.footer {
+  background-color: #F5EFEB; /* Matches your luxury soft beige navbar base */
+  border-top: 1px solid #E5C5C1; /* Elegant Pink structural accent boundary */
+  padding: 3rem 2rem;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #111111;
+  margin-top: auto; /* Pushes footer to the bottom of short pages */
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.footer-brand h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  margin: 0 0 0.5rem 0;
+}
+
+.footer-brand p {
+  font-size: 0.9rem;
+  color: #555555; /* Soft charcoal for contrast readability against beige */
+  margin: 0;
+}
+
+.footer-meta {
+  border-top: 1px solid rgba(229, 197, 193, 0.5); /* Subtle fading pink separator line */
+  padding-top: 1.5rem;
+  width: 100%;
+}
+
+.footer-location {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #555555;
+  margin: 0 0 0.5rem 0;
+}
+
+.footer-copyright {
+  font-size: 0.8rem;
+  color: #777777;
+  margin: 0;
+}

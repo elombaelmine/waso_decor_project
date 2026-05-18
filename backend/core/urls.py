@@ -26,11 +26,11 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
     path('admin/', admin.site.urls), # Django Admin Interface
     
-    # Mandatory JWT Authentication Endpoints (Criterion 2)
+    # Mandatory JWT Authentication Endpoints
     path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
-    # Local App CRUD Endpoints
+    # Local App CRUD Endpoints (Points to your sub-router)
     path('api/', include('main.urls')),
 ]
 

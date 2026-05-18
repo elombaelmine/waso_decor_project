@@ -1,0 +1,25 @@
+<div class="gallery-wrapper">
+  <header class="gallery-header">
+    <span class="gallery-subtitle">The Portfolio</span>
+    <h1>Our Curation Gallery</h1>
+    <div class="line-accent"></div>
+    <p>Filter through our bespoke design environments to find your inspiration.</p>
+  </header>
+
+  <main class="gallery-grid">
+    @for (item of galleryItems(); track item.id) {
+      <div class="gallery-card">
+        <div class="image-wrapper">
+          <img [src]="item.image" [alt]="item.title" class="gallery-img" />
+          <div class="card-overlay">
+            <span class="view-tag">View Design</span>
+          </div>
+        </div>
+        <div class="gallery-info">
+          <span class="item-category">{{ item.event_type }}</span>
+          <h3 class="item-title">{{ item.title }}</h3>
+        </div>
+      </div>
+    }
+  </main>
+</div>

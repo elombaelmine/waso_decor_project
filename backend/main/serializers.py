@@ -16,6 +16,8 @@ class InquirySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inquiry
         fields = '__all__'
+        # Add this line right here to make user field optional for incoming frontend data
+        read_only_fields = ['user']
 
     # BUSINESS RULE VALIDATION (Criterion 7) 
     def validate_event_date(self, value):

@@ -1,4 +1,6 @@
+import secrets
 from django.db import models
+from django.contrib.auth.models import User #importing users 
 
 # Create your models here.
 class GalleryItem(models.Model):
@@ -26,10 +28,17 @@ class Inquiry(models.Model):
         ('CONTACTED', 'Contacted'),
         ('BOOKED', 'Booked'),
     ]
+    
+    # 2. This line right here is added to link the Inquiry to their auto-generated User account
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='inquiry')
+
 
     client_name = models.CharField(max_length=200)
     client_email = models.EmailField()
     event_date = models.DateField()
+    venue_name = models.CharField(max_length=255)
+    town = models.CharField(max_length=100, default="Yaoundé")  # Add this line right here
+    guest_count = models.IntegerField()
     venue_name = models.CharField(max_length=255)
     guest_count = models.IntegerField()
     budget_estimate = models.DecimalField(max_digits=10, decimal_places=2)
@@ -41,6 +50,36 @@ class Inquiry(models.Model):
     class Meta:
         verbose_name = "Inquiry"
         verbose_name_plural = "Inquiries"
+    
+    # --- ADD THIS AUTOMATION LOGIC HERE ---
+    def save(self, *args, **kwargs):
+        # Only run this if the inquiry doesn't have a user attached yet
+        if not self.user and self.client_email:
+            # Check if a user with this email already exists
+            user_exists = User.objects.filter(username=self.client_email).exists()
+            
+            if not user_exists:
+                # Generate a temporary password
+                generated_password = secrets.token_urlsafe(8)
+                
+                # Create the user account
+                new_user = User.objects.create_user(
+                    username=self.client_email,
+                    email=self.client_email,
+                    password=generated_password,
+                    first_name=self.client_name
+                )
+                self.user = new_user
+                
+                # For testing clarity in terminal/console logs:
+                print(f"\n[AUTOMATION] Created user account for {self.client_email}")
+                print(f"[AUTOMATION] Temporary Password: {generated_password}\n")
+            else:
+                # Link to existing user if email matches a previous client
+                self.user = User.objects.get(username=self.client_email)
+
+        # Execute standard Django save behavior
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Inquiry from {self.client_name} for {self.event_date}"
