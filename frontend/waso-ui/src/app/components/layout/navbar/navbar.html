@@ -10,9 +10,9 @@
 
     <div class="nav-actions">
       @if (!isLoggedIn()) {
-        <a class="nav-btn-primary" routerLink="/book">Book an Event</a>
+        <a class="nav-btn-primary" routerLink="/client/sign-up">Book an Event</a>
       } @else {
-        <a class="nav-item" routerLink="/dashboard">My Portal</a>
+        <a class="nav-item" routerLink="/client/chat">My Portal</a>
         <button class="nav-btn-outline" (click)="onLogout()">Logout</button>
       }
     </div>

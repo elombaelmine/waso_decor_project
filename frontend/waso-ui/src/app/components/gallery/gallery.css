@@ -1,228 +1,261 @@
-/* Base canvas wrapping utilizing your customized beige palette background */
+/* Main Layout Rules */
 .gallery-wrapper {
-  background-color: #F5EFEB;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  color: #111111;
-  padding: 5rem 2rem;
-  min-height: 80vh;
+  padding: 4rem 0;
+  background-color: #faf6f5;
 }
 
-/* Header Text formatting */
 .gallery-header {
   text-align: center;
-  margin-bottom: 3rem;
-}
-
-.gallery-subtitle {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-weight: 700;
-  color: #555555;
+  margin-bottom: 2rem;
 }
 
 .gallery-header h1 {
   font-size: 2.5rem;
-  font-weight: 800;
-  margin: 0.5rem 0 1rem 0;
-  letter-spacing: -0.5px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin: 0.5rem 0;
+  color: #111111;
 }
 
 .line-accent {
-  width: 40px;
-  height: 2px;
-  background-color: #E5C5C1; /* Accent Pink Separator */
-  margin: 0 auto 1.2rem auto;
+  width: 50px;
+  height: 1px;
+  background-color: #e5c5c1;
+  margin: 1rem auto;
 }
 
-.gallery-header p {
-  color: #666666;
-  font-size: 1rem;
-}
-
-/* Luxury Minimalist Filtering Buttons style */
-.filter-container {
+/* Filter Panel Layout */
+.filter-panel {
+  max-width: 600px;
+  margin: 0 auto 3.5rem auto;
+  padding: 0 1.5rem;
   display: flex;
+  gap: 1.5rem;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 4rem;
-  flex-wrap: wrap;
 }
 
-.filter-btn {
-  background: transparent;
+.dropdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.dropdown-group label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #777777;
+}
+
+.gallery-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #111111;
+  background-color: #ffffff;
   border: 1px solid rgba(229, 197, 193, 0.6);
-  color: #555555;
-  padding: 0.6rem 1.4rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
   border-radius: 2px;
+  outline: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  text-transform: capitalize;
 }
 
-.filter-btn:hover, .filter-btn.active {
-  background-color: #111111; /* Strong black focus pop */
-  color: #F5EFEB;
-  border-color: #111111;
-}
-
-/* Portfolio Masonry/Grid Configuration */
+/* Lookbook Canvas Grid */
 .gallery-grid {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 2.5rem;
 }
 
 .gallery-card {
-  background-color: #ffffff;
-  border: 1px solid rgba(229, 197, 193, 0.3);
-  border-radius: 2px;
+  cursor: pointer;
+  background-color: transparent;
   overflow: hidden;
-  transition: transform 0.35s ease;
 }
 
-.gallery-card:hover {
-  transform: translateY(-6px);
-}
-
-/* Image containment boxes with overlay hover effects */
 .image-wrapper {
   position: relative;
-  height: 300px;
-  background-color: #E5C5C1; /* Soft fallback background tint while loading */
+  width: 100%;
   overflow: hidden;
 }
 
-/* Crucial rules for processing dynamic Django image files cleanly */
 .gallery-img {
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* Prevents stretching or distortion no matter what size the admin uploads */
+  height: auto;
   display: block;
   transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.gallery-card:hover .gallery-img {
-  transform: scale(1.05); /* Smooth luxury zoom-in focus on hover */
-}
-
-/* High-end overlay slide cover tint */
-.card-overlay {
+/* Hover overlay effect on grid images */
+.image-hover-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(229, 197, 193, 0.4); /* Translucent pink theme tint overlay */
+  background-color: rgba(17, 17, 17, 0.2);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
-.gallery-card:hover .card-overlay {
+.view-details-text {
+  color: #ffffff;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 2px;
+}
+
+.gallery-card:hover .gallery-img {
+  transform: scale(1.04);
+}
+
+.gallery-card:hover .image-hover-overlay {
   opacity: 1;
 }
 
-.view-tag {
-  background-color: #111111;
-  color: #F5EFEB;
-  padding: 0.5rem 1.2rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Card metadata info labels */
-.gallery-info {
-  padding: 1.5rem;
-}
-
-.item-category {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #ba9995; /* Specialized structural dark-pink contrast tone */
-  display: block;
-  margin-bottom: 0.4rem;
-}
-
-.gallery-info h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin: 0;
-  color: #111111;
-}
-/* Container holding the grid cards */
-.gallery-grid {
-  max-width: 1200px;
-  margin: 4rem auto;
-  padding: 0 2rem;
-  display: grid;
-  /* Automatically columns layout: min width 320px, max width balanced fractional space */
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2.5rem;
-}
-
-/* Individual card container block */
-.gallery-card {
-  background-color: #ffffff;
-  border: 1px solid rgba(229, 197, 193, 0.3);
-  border-radius: 4px;
-  overflow: hidden;
+/* Interactive Pop-up Detail Modal Box Rules */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 17, 17, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
-  flex-direction: column;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 2rem;
 }
 
-.gallery-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 24px rgba(17, 17, 17, 0.06);
-}
-
-/* Constrained image aspect box ratios */
-.image-wrapper {
-  position: relative;
+.modal-content {
+  background-color: #ffffff;
   width: 100%;
-  height: 260px; /* Forces a uniform height for all uploaded photos */
+  max-width: 850px;
+  border-radius: 4px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   overflow: hidden;
-  background-color: #E5C5C1;
 }
 
-.gallery-img {
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #111111;
+  cursor: pointer;
+  z-index: 10;
+  line-height: 1;
+}
+
+/* Split design layout pane components */
+.modal-body-split {
+  display: flex;
+}
+
+.modal-image-pane {
+  flex: 1.2;
+  background-color: #111111;
+  display: flex;
+  align-items: center;
+}
+
+.modal-image-pane img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Centers and cleanly clips the image beautifully */
+  object-fit: cover;
   display: block;
 }
 
-/* Text Meta Block Details */
-.gallery-info {
-  padding: 1.25rem 1.5rem;
+.modal-text-pane {
+  flex: 1;
+  padding: 3.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: #ffffff;
 }
 
-.item-category {
+.modal-meta-tag {
   font-size: 0.75rem;
   text-transform: uppercase;
+  color: #cbb2ae;
+  letter-spacing: 2px;
   font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #E5C5C1;
-  display: block;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
 }
 
-.item-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin: 0;
+.modal-design-title {
+  font-size: 1.75rem;
+  font-weight: 500;
   color: #111111;
+  margin: 0;
   text-transform: capitalize;
+}
+
+.pane-divider {
+  width: 40px;
+  height: 1px;
+  background-color: #e5c5c1;
+  margin: 1.5rem 0;
+}
+
+.design-specs {
+  font-size: 0.95rem;
+  color: #444444;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.color-badge {
+  text-transform: capitalize;
+  font-weight: 600;
+  background-color: #faf6f5;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  border: 1px solid rgba(229, 197, 193, 0.4);
+}
+
+.design-inspiration-note {
+  font-size: 0.85rem;
+  color: #777777;
+  line-height: 1.5;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Responsive constraints */
+@media (max-width: 768px) {
+  .modal-body-split {
+    flex-direction: column;
+  }
+  .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-text-pane {
+    padding: 2rem 1.5rem;
+  }
 }

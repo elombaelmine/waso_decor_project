@@ -1,9 +1,15 @@
+import os
+import requests
 import secrets
+import random
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from .models import GalleryItem, Inquiry, Testimonial
+from .models import GalleryItem, Inquiry, Testimonial, UserProfileOTP
 from .serializers import GalleryItemSerializer, InquirySerializer, TestimonialSerializer
+from django.core.mail import send_mail
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 
 class GalleryItemViewSet(viewsets.ModelViewSet):
     """
@@ -17,6 +23,7 @@ class GalleryItemViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
+
 
 class TestimonialViewSet(viewsets.ModelViewSet):
     """
@@ -86,13 +93,13 @@ class InquiryViewSet(viewsets.ModelViewSet):
             # Link the newly created or fetched user to this inquiry model
             serializer.save(user=target_user)
             
+            # Formulate validation response object boundaries
             response_data = {
                 "message": "Inquiry submitted successfully!",
                 "inquiry": serializer.data,
                 "account_created": not user_exists,
             }
 
-            # Return credentials dynamically if it's a new registration
             if generated_password:
                 response_data["temporary_password"] = generated_password
                 response_data["username"] = email
@@ -100,3 +107,95 @@ class InquiryViewSet(viewsets.ModelViewSet):
             return Response(response_data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+# ==============================================================================
+# SECURE CUSTOMER ONBOARDING & ACTIVATION VIEWS (STANDALONE FUNCTIONS)
+# ==============================================================================
+
+@api_view(['POST'])
+@permission_classes([AllowAny])  # Ensures public signups can access this gate cleanly
+def client_registration_view(request):
+    data = request.data
+    email = data.get('email')
+    password = data.get('password')
+    full_name = data.get('fullName')
+    
+    if not email or not password or not full_name:
+        return Response({"error": "Missing mandatory registration parameters."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Prevent duplicate accounts
+    if User.objects.filter(username=email).exists():
+        return Response({"error": "An account with this email address already exists."}, status=status.HTTP_400_BAD_REQUEST)
+        
+    # Build user as INACTIVE until they pass the OTP email check
+    user = User.objects.create_user(
+        username=email,
+        email=email,
+        password=password,
+        first_name=full_name,
+        is_active=False 
+    )
+    
+    # Save code to the database profile container
+    otp_profile, created = UserProfileOTP.objects.get_or_create(user=user)
+    generated_pin = otp_profile.generate_code()
+    
+    # Pull Brevo credentials directly from your .env
+    brevo_api_key = os.getenv("BREVO_API_KEY")
+    sender_email = os.getenv("EMAIL_FROM", "eventportal0@gmail.com")
+
+    # Fire the transactional activation email using direct Brevo HTTP API
+    try:
+        url = "https://api.brevo.com/v3/smtp/email"
+        headers = {
+            "accept": "application/json",
+            "api-key": brevo_api_key,
+            "content-type": "application/json"
+        }
+        
+        payload = {
+            "sender": {"name": "Waso Deco", "email": sender_email},
+            "to": [{"email": email, "name": full_name}],
+            "subject": "Activate Your Waso Deco Lookbook Portal",
+            "textContent": f"Hello {full_name},\n\nThank you for registering. Your 6-digit one-time activation pin is: {generated_pin}\n\nThis code will expire in 15 minutes."
+        }
+
+        response = requests.post(url, json=payload, headers=headers)
+        
+        # Check if Brevo accepted the transaction successfully
+        if response.status_code == 201 or response.status_code == 200:
+            return Response({"message": "User initialized. Validation code dispatched."}, status=status.HTTP_201_CREATED)
+        else:
+            # If Brevo rejects it, print the exact reason to your console so you see it instantly!
+            print(f"❌ Brevo API Error Context: {response.text}")
+            return Response({"error": "Mail delivery agent rejected transaction setup."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    except Exception as e:
+        print(f"❌ Connection Exception: {str(e)}")
+        return Response({"error": f"Failed to send verification email: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def verify_otp_view(request):
+    data = request.data
+    email = data.get('email')
+    inserted_code = data.get('verificationCode')
+    
+    try:
+        user = User.objects.get(username=email)
+        otp_profile = user.otp_profile
+        
+        if otp_profile.otp_code == inserted_code and otp_profile.is_valid():
+            # Activate account! Now they can log in via JWT
+            user.is_active = True
+            user.save()
+            
+            otp_profile.delete() # Clean up the code from the database
+            return Response({"message": "Profile verified successfully!"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Invalid or expired activation code string."}, status=status.HTTP_400_BAD_REQUEST)
+            
+    except User.DoesNotExist:
+        return Response({"error": "Account target parameter not identified."}, status=status.HTTP_404_NOT_FOUND)

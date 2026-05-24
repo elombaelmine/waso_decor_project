@@ -1,16 +1,19 @@
 import secrets
+import random
+from datetime import timedelta
 from django.db import models
-from django.contrib.auth.models import User #importing users 
+from django.contrib.auth.models import User 
+from django.utils import timezone
 
 # Create your models here.
 class GalleryItem(models.Model):
     EVENT_TYPES = [
-        ('WEDDING', 'Weddings'), # For wedding ceremonies, receptions, and related events
-        ('BIRTHDAY', 'Birthdays'), # Simplified from Luxury Birthdays
-        ('CORPORATE', 'Corporate Events'), #Events like product launches, corporate parties, or business conferences
-        ('MEETING', 'Meetings'), # Added for business meetings or conferences
-        ('BURIAL', 'Burial Ceremony'), # Added for burial ceremonies, funerals, or memorial services
-        ('GENERAL', 'General Events'), # For joinings, parties, or other ceremonies
+        ('WEDDING', 'Weddings'), 
+        ('BIRTHDAY', 'Birthdays'), 
+        ('CORPORATE', 'Corporate Events'), 
+        ('MEETING', 'Meetings'), 
+        ('BURIAL', 'Burial Ceremony'), 
+        ('GENERAL', 'General Events'), 
     ]
     
     title = models.CharField(max_length=200)
@@ -21,6 +24,7 @@ class GalleryItem(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.event_type}"
+
     
 class Inquiry(models.Model):
     STATUS_CHOICES = [
@@ -29,33 +33,27 @@ class Inquiry(models.Model):
         ('BOOKED', 'Booked'),
     ]
     
-    # 2. This line right here is added to link the Inquiry to their auto-generated User account
+    # Links the Inquiry to their auto-generated User account
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='inquiry')
-
 
     client_name = models.CharField(max_length=200)
     client_email = models.EmailField()
     event_date = models.DateField()
     venue_name = models.CharField(max_length=255)
-    town = models.CharField(max_length=100, default="Yaoundé")  # Add this line right here
-    guest_count = models.IntegerField()
-    venue_name = models.CharField(max_length=255)
+    town = models.CharField(max_length=100, default="Yaoundé")  
     guest_count = models.IntegerField()
     budget_estimate = models.DecimalField(max_digits=10, decimal_places=2)
     color_palette = models.CharField(max_length=100)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='NEW')
     created_at = models.DateTimeField(auto_now_add=True)
 
-    # Add this section to fix the admin dashboard spelling
     class Meta:
         verbose_name = "Inquiry"
         verbose_name_plural = "Inquiries"
     
-    # --- ADD THIS AUTOMATION LOGIC HERE ---
     def save(self, *args, **kwargs):
         # Only run this if the inquiry doesn't have a user attached yet
         if not self.user and self.client_email:
-            # Check if a user with this email already exists
             user_exists = User.objects.filter(username=self.client_email).exists()
             
             if not user_exists:
@@ -71,23 +69,37 @@ class Inquiry(models.Model):
                 )
                 self.user = new_user
                 
-                # For testing clarity in terminal/console logs:
                 print(f"\n[AUTOMATION] Created user account for {self.client_email}")
                 print(f"[AUTOMATION] Temporary Password: {generated_password}\n")
             else:
-                # Link to existing user if email matches a previous client
                 self.user = User.objects.get(username=self.client_email)
 
-        # Execute standard Django save behavior
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Inquiry from {self.client_name} for {self.event_date}"
+
     
 class Testimonial(models.Model):
     client_name = models.CharField(max_length=100)
     content = models.TextField()
-    is_visible = models.BooleanField(default=False) # The toggle for the live site
+    is_visible = models.BooleanField(default=False) 
 
     def __str__(self):
         return self.client_name
+
+
+class UserProfileOTP(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="otp_profile")
+    otp_code = models.CharField(max_length=6, default="")
+    created_at = models.DateTimeField(auto_now=True) 
+    
+    def generate_code(self):
+        """Generates a random secure 6-digit pin and saves it."""
+        self.otp_code = f"{random.randint(100000, 999999)}"
+        self.save()
+        return self.otp_code
+
+    def is_valid(self):
+        """Validates that the code hasn't expired (15-minute window)."""
+        return timezone.now() < self.created_at + timedelta(minutes=15)

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import GalleryItem, Inquiry, Testimonial
+from .models import GalleryItem, Inquiry, Testimonial, UserProfileOTP
+
 
 # Register your models here.
 
@@ -16,3 +17,12 @@ class TestimonialAdmin(admin.ModelAdmin):
     list_editable = ('is_visible',) # Bonus: Clickable toggle on the list page
 
 admin.site.register(GalleryItem)
+
+
+# Your existing admin configurations (GalleryItem, Inquiry, Testimonial)...
+
+# Append this block at the bottom to expose the OTP table
+@admin.register(UserProfileOTP)
+class UserProfileOTPAdmin(admin.ModelAdmin):
+    list_display = ('user', 'otp_code', 'created_at')
+    search_fields = ('user__email', 'otp_code')

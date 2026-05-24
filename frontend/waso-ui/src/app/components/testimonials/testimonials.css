@@ -1,0 +1,185 @@
+/* Main Page Structural Container */
+.testimonials-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  background-color: transparent;
+}
+
+/* Header Elements Centering */
+.testimonials-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.testimonials-header h1 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #111111;
+  margin: 0.5rem 0;
+}
+
+.testimonials-subtitle {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #cbb2ae;
+  font-weight: 700;
+  display: block;
+}
+
+.testimonials-desc {
+  font-size: 1rem;
+  color: #555555;
+  margin: 0;
+}
+
+.line-accent {
+  width: 50px;
+  height: 1px;
+  background-color: #e5c5c1;
+  margin: 1.2rem auto;
+}
+
+/* Submission Component Box Alignment */
+.submission-area {
+  max-width: 600px;
+  margin: 0 auto 3.5rem auto;
+}
+
+.review-write-box {
+  background-color: #ffffff;
+  border: 1px solid rgba(229, 197, 193, 0.5);
+  border-radius: 2px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(17, 17, 17, 0.02);
+  text-align: left;
+}
+
+.review-write-box h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.4rem 0;
+  color: #111111;
+  letter-spacing: 0.5px;
+} earth-tones
+
+.review-write-box p {
+  font-size: 0.9rem;
+  color: #666666;
+  margin: 0 0 1.5rem 0;
+}
+
+.testimonial-textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid rgba(229, 197, 193, 0.4);
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  resize: vertical;
+  background-color: #faf6f5;
+  box-sizing: border-box;
+}
+
+.testimonial-textarea:focus {
+  border-color: #111111;
+  background-color: #ffffff;
+}
+
+.submit-review-btn {
+  background-color: #111111;
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 2rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
+  border-radius: 2px;
+}
+
+.submit-review-btn:hover {
+  background-color: #333333;
+}
+
+/* Center Section Break Line */
+.section-divider {
+  width: 60px;
+  height: 1px;
+  background-color: #e5c5c1;
+  margin: 0 auto 3.5rem auto;
+}
+
+/* Clean Dynamic Review Grid */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2.5rem;
+}
+
+.testimonial-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(229, 197, 193, 0.4);
+  border-radius: 2px;
+  padding: 2.5rem;
+  position: relative;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(17, 17, 17, 0.01);
+}
+
+.quote-icon {
+  font-size: 4rem;
+  color: rgba(229, 197, 193, 0.25);
+  position: absolute;
+  top: 0.5rem;
+  left: 1.5rem;
+  font-family: serif;
+  line-height: 1;
+}
+
+.review-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #444444;
+  margin: 0 0 1.5rem 0;
+  position: relative;
+  z-index: 2;
+  font-style: italic;
+}
+
+.card-footer {
+  border-top: 1px solid rgba(229, 197, 193, 0.3);
+  padding-top: 1rem;
+}
+
+.client-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111111;
+  margin: 0 0 0.15rem 0;
+  text-transform: capitalize;
+}
+
+.verified-tag {
+  font-size: 0.7rem;
+  color: #cbb2ae;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* Empty State Handling */
+.no-reviews {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: #777777;
+  font-style: italic;
+  font-size: 0.95rem;
+}

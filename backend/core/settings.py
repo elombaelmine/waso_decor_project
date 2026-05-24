@@ -10,20 +10,26 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from datetime import timedelta
+from dotenv import load_dotenv # Added to process environment parameters
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# STEP 1: Look one folder level up to find the .env file in the absolute root folder
+ENV_PATH = BASE_DIR.parent / '.env'
+load_dotenv(ENV_PATH)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pmpz3q^q)n@l-5egvh_v+9n5_0tv0s&deb3e1-1o54i-=n_q(h'
+# STEP 2: Read secret settings dynamically out of secure environmental scope arrays
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-for-local-dev-only')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -37,9 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     # Third-party modules required for your API and security
     'rest_framework',
     'corsheaders',
+    'anymail', # STEP 3: Register Anymail here to handle Brevo delivery routing wrappers
     
     # Your custom local application
     'main',
@@ -127,8 +135,6 @@ STATIC_URL = 'static/'
 # We will lock this down to your Vercel URL before final grading.
 CORS_ALLOW_ALL_ORIGINS = True
 
-from datetime import timedelta
-import os
 
 # Configure Django REST Framework to use JWT by default
 REST_FRAMEWORK = {
@@ -151,3 +157,15 @@ SIMPLE_JWT = {
 # Configure Media Settings for User/Manager Uploaded files (like Gallery Images)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# ==============================================================================
+# STEP 4: PRODUCTION TRANSACTIONAL EMAIL CONFIGURATION (BREVO)
+# ==============================================================================
+ANYMAIL = {
+    "BREVO_API_KEY": os.getenv("BREVO_API_KEY"),
+}
+EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
+
+# The official verified sending domain identity visible to clients in their inboxes
+DEFAULT_FROM_EMAIL = "Waso Deco <management@saintjeaningenieur.org>"
