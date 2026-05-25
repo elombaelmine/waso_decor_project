@@ -4,11 +4,11 @@
 
 .auth-wrapper {
   background-color: #F8F5F0; /* Cream canvas color matching the gallery frame */
-  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  padding: clamp(2rem, 6vw, 4rem) var(--page-gutter);
 }
 
 .auth-card {
@@ -18,7 +18,7 @@
   display: grid;
   grid-template-columns: 1fr 1.1fr; /* Asymmetric split layout */
   box-shadow: 0 40px 90px rgba(0, 0, 0, 0.06);
-  min-height: 680px;
+  min-height: min(680px, calc(100svh - 4rem));
 }
 
 /* 1. LEFT ATMOSPHERIC BRAND PANE */
@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 4.5rem;
+  padding: clamp(2.5rem, 5vw, 4.5rem);
 }
 
 /* Fine-dot lookbook design lattice overlay */
@@ -53,7 +53,7 @@
 
 .brand-content h2 {
   font-family: var(--font-serif);
-  font-size: 2.8rem;
+  font-size: clamp(2rem, 5vw, 2.8rem);
   font-weight: 400;
   color: #F8F5F0;
   letter-spacing: -0.5px;
@@ -84,7 +84,7 @@
 
 /* 2. RIGHT LOGIN INPUT PANE */
 .auth-form-pane {
-  padding: 5rem 4.5rem;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.75rem, 5vw, 4.5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -97,7 +97,7 @@
 
 .auth-header h1 {
   font-family: var(--font-serif);
-  font-size: 2.4rem;
+  font-size: clamp(2rem, 5vw, 2.4rem);
   font-weight: 400;
   letter-spacing: -0.5px;
   color: var(--color-text);
@@ -230,5 +230,28 @@
   }
   .auth-form-pane {
     padding: 3.5rem 2rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .auth-wrapper {
+    padding-inline: 0;
+    align-items: stretch;
+  }
+
+  .auth-card {
+    box-shadow: none;
+  }
+
+  .auth-brand-pane {
+    min-height: 180px;
+  }
+
+  .auth-form-pane {
+    padding-inline: 1.25rem;
+  }
+
+  .auth-action-btn {
+    width: 100%;
   }
 }

@@ -9,6 +9,18 @@
   --color-deep: #3A4032;    /* Deep Olive */
   --font-serif: 'Georgia', serif;
   --font-sans: 'Inter', sans-serif;
+  --page-gutter: clamp(1rem, 4vw, 4rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  overflow-x: hidden;
 }
 
 /* Apply the background globally */
@@ -16,6 +28,23 @@ body {
   background-color: var(--color-bg);
   margin: 0;
   font-family: var(--font-sans);
+  color: var(--color-text);
+  overflow-x: hidden;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }
 
 /* ==========================================================================

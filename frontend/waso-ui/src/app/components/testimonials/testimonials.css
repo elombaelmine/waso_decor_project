@@ -5,7 +5,7 @@
 .testimonials-container {
   background-color: var(--color-bg);
   color: var(--color-text);
-  padding: 6rem 4rem;
+  padding: clamp(4rem, 8vw, 6rem) var(--page-gutter);
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -27,9 +27,9 @@
 
 .testimonials-header h1 {
   font-family: var(--font-serif);
-  font-size: 3.5rem;
+  font-size: clamp(2.35rem, 6vw, 3.5rem);
   font-weight: 400;
-  letter-spacing: -1px;
+  letter-spacing: 0;
   line-height: 1.1;
   margin-bottom: 1.5rem;
 }
@@ -156,13 +156,13 @@
 /* 3. PREMIUM GRID & ASYMMETRICAL CARDS */
 .testimonials-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 4rem);
 }
 
 .testimonial-card {
   background: #ffffff;
-  padding: 4rem 3.5rem;
+  padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem);
   position: relative;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.02);
   border-radius: 0;
@@ -214,6 +214,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .client-name {
@@ -252,5 +254,27 @@
   }
   .testimonial-card:nth-child(even):hover {
     transform: translateY(-5px);
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonials-header {
+    margin-bottom: 3rem;
+  }
+
+  .submission-area {
+    margin-bottom: 4rem;
+  }
+
+  .auth-prompt-box {
+    padding: 1.5rem;
+  }
+
+  .submit-review-btn {
+    width: 100%;
+  }
+
+  .section-divider {
+    margin-bottom: 4rem;
   }
 }

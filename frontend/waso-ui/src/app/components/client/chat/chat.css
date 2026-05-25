@@ -5,7 +5,7 @@
 .dashboard-wrapper {
   display: grid;
   grid-template-columns: 280px 1fr;
-  min-height: 100vh;
+  min-height: 100svh;
   background-color: #ffffff;
   font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -18,7 +18,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
+  height: 100svh;
   position: sticky;
   top: 0;
 }
@@ -117,11 +117,12 @@
 
 /* 2. MAIN INTERACTION VIEWPORT PANEL */
 .dashboard-content-panel {
-  padding: 4.5rem 5rem;
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 5vw, 5rem);
   max-width: 1200px;
   width: 100%;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .viewport-header {
@@ -130,7 +131,7 @@
 
 .viewport-header h2 {
   font-family: var(--font-serif), Georgia, serif;
-  font-size: 2.2rem;
+  font-size: clamp(1.8rem, 5vw, 2.2rem);
   font-weight: 400;
   color: #111111;
   margin: 0 0 0.8rem 0;
@@ -153,7 +154,8 @@
 .viewport-chat-container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 12.5rem);
+  height: calc(100svh - 12.5rem);
+  min-height: 520px;
 }
 
 .chat-message-feed {
@@ -188,7 +190,7 @@
 }
 
 .message-bubble {
-  max-width: 65%;
+  max-width: min(65%, 680px);
   background-color: #f7f5f2; /* Elegant soft stone tone for manager messages */
   padding: 1.1rem 1.4rem;
   position: relative;
@@ -232,6 +234,7 @@
   grid-template-columns: 1fr auto;
   gap: 1.5rem;
   align-items: center;
+  min-width: 0;
 }
 
 .dock-text-field {
@@ -242,6 +245,7 @@
   color: #111111;
   background: transparent;
   transition: border-color 0.3s ease;
+  min-width: 0;
 }
 
 .dock-text-field:focus {
@@ -280,7 +284,7 @@
 
 .form-row-split {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2.5rem;
 }
 
@@ -312,6 +316,7 @@
   color: #111111;
   background-color: transparent;
   transition: border-color 0.3s ease;
+  min-width: 0;
 }
 
 .inquiry-textarea {
@@ -431,6 +436,7 @@
   .sidebar-nav-links {
     flex-direction: row;
     gap: 1.5rem;
+    flex-wrap: wrap;
   }
   .nav-indicator {
     bottom: -2px;
@@ -447,8 +453,14 @@
   .dashboard-content-panel {
     padding: 3rem 2rem;
   }
+
+  .viewport-chat-container {
+    height: auto;
+    min-height: 640px;
+  }
+
   .chat-message-feed {
-    height: 400px;
+    min-height: 400px;
   }
 }
 
@@ -472,5 +484,46 @@
   .form-row-split {
     grid-template-columns: 1fr;
     gap: 1.8rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .dashboard-sidebar {
+    padding: 1.5rem var(--page-gutter);
+  }
+
+  .client-profile-header {
+    align-items: flex-start;
+  }
+
+  .dashboard-content-panel {
+    padding: 2rem var(--page-gutter);
+  }
+
+  .viewport-header {
+    margin-bottom: 2rem;
+  }
+
+  .chat-message-feed {
+    padding-right: 0.5rem;
+  }
+
+  .message-bubble {
+    max-width: 88%;
+    padding: 1rem;
+  }
+
+  .dock-form {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .dock-send-btn,
+  .submit-portfolio-btn {
+    width: 100%;
+  }
+
+  .success-alert-pane {
+    padding-inline: 0;
   }
 }
