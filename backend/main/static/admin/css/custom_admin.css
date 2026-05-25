@@ -1,0 +1,115 @@
+/* ==========================================================================
+   WASO DECO PREMIUM ADMIN INTERFACE OVERRIDES (FORCES LIGHT & DARK MODES)
+   ========================================================================== */
+
+/* Target the base root layout as well as Django's specific dark theme active nodes */
+:root, 
+body, 
+[data-theme="dark"], 
+[data-theme="light"] {
+    /* Primary deep forest branding greens */
+    --primary: #0a2f1d !important;
+    --primary-fg: #ffffff !important;
+    --secondary: #14442a !important;
+    
+    /* Signature Gold accents */
+    --accent: #c5a059 !important;
+    --accent-fg: #0a2f1d !important;
+    
+    /* Structural header block replacements */
+    --header-bg: #0a2f1d !important;
+    --header-color: #c5a059 !important;
+    --header-link-color: #ffffff !important;
+    --breadcrumbs-bg: #072215 !important;
+    --breadcrumbs-link-color: #c5a059 !important;
+
+    /* Global link and interactive hover states */
+    --link-color: #c5a059 !important;
+    --link-hover-color: #ffffff !important;
+    --link-selected-color: #c5a059 !important;
+}
+
+/* 1. Main Top Navigation Banner Container */
+#header {
+    background-color: #0a2f1d !important;
+    background: #0a2f1d !important;
+    border-bottom: 3px solid #c5a059 !important;
+}
+
+/* 2. Brand Header text title ("WASO DECO Admin Dashboard") */
+#branding h1 {
+    color: #ffffff !important;
+}
+#branding h1 a, 
+#branding h1 string {
+    color: #c5a059 !important;
+    font-weight: 700 !important;
+}
+
+/* 3. Right Hand Welcome Tool Links (User Management controls) */
+#user-tools {
+    color: #ffffff !important;
+}
+#user-tools a {
+    color: #c5a059 !important;
+}
+#user-tools a:hover {
+    color: #ffffff !important;
+    text-decoration: underline !important;
+}
+
+/* 4. Breadcrumbs path layout bar ("Home > App > Chat Messages") */
+.breadcrumbs {
+    background: #072215 !important;
+    background-color: #072215 !important;
+    border-bottom: 1px solid #14442a !important;
+    color: #ffffff !important;
+}
+.breadcrumbs a {
+    color: #c5a059 !important;
+}
+.breadcrumbs a:hover {
+    color: #ffffff !important;
+}
+
+/* 5. Section Block Headers (e.g., AUTHENTICATION AND AUTHORIZATION, MAIN) */
+.module h2, 
+.module caption, 
+.inline-group h2 {
+    background: #14442a !important;
+    background-color: #14442a !important;
+    color: #c5a059 !important;
+    border-left: 4px solid #c5a059 !important;
+    font-weight: bold !important;
+}
+
+/* 6. List management tables & anchor link components */
+.module table th a:link, 
+.module table th a:visited,
+.dashboard .module table td a {
+    color: #c5a059 !important;
+}
+.dashboard .module table td a:hover,
+.module table th a:hover {
+    color: #ffffff !important;
+}
+
+/* 7. Action buttons (Add, Change, Save, Delete) */
+.button.default, 
+input[type=submit].default {
+    background: #c5a059 !important;
+    background-color: #c5a059 !important;
+    color: #0a2f1d !important;
+    font-weight: bold !important;
+    border: 1px solid #b38f4b !important;
+}
+.button.default:hover, 
+input[type=submit].default:hover {
+    background: #0a2f1d !important;
+    color: #c5a059 !important;
+    border-color: #c5a059 !important;
+}
+
+.addlink, .changelink {
+    color: #c5a059 !important;
+}
