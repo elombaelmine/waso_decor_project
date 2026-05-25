@@ -1,146 +1,210 @@
-/* Container framework alignment matching sign-up styles exactly */
+/* ==========================================================================
+   WASO DECO: FIXED IDENTITY VERIFICATION GATEWAY
+   ========================================================================== */
+
 .auth-wrapper {
-  min-height: 85vh;
+  background-color: #F8F5F0; /* Clean lookbook cream canvas background */
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: #faf6f5;
-  padding: 2rem;
+  justify-content: center;
+  padding: 4rem 2rem;
+  box-sizing: border-box;
 }
 
-/* Slimmed down structural container card tailored for the verification block */
+/* Base structural layout container fix */
 .auth-card.smaller-gate {
   background-color: #ffffff;
   width: 100%;
-  max-width: 500px;
-  min-height: 480px;
-  border: 1px solid rgba(229, 197, 193, 0.5);
-  border-radius: 4px;
-  display: flex;
-  overflow: hidden;
-  box-shadow: 0 15px 40px rgba(17, 17, 17, 0.03);
+  max-width: 480px; /* Locked down explicit layout block */
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.03);
+  border: none;
+  box-sizing: border-box;
 }
 
-.centered-pane {
-  flex: 1;
-  padding: 4rem 3rem;
-  text-align: center;
+.auth-form-pane.centered-pane {
+  padding: 4.5rem 3.5rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background-color: #ffffff;
+  align-items: center;
+  box-sizing: border-box;
 }
 
-.security-badge {
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
-  color: #cbb2ae;
+/* SECURITY GEOMETRIC HEADER */
+.auth-header {
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.security-badge-frame {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #111111;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.security-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-accent, #c5a059);
+  border-radius: 50%;
 }
 
 .auth-header h1 {
-  font-size: 1.8rem;
-  font-weight: 500;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  letter-spacing: -0.5px;
   color: #111111;
-  margin: 0 0 0.5rem 0;
-  letter-spacing: 0.5px;
+  margin: 0 0 1rem 0;
 }
 
 .auth-subtitle {
-  font-size: 0.88rem;
-  color: #666666;
+  font-size: 0.9rem;
   line-height: 1.6;
-  margin: 0 0 2rem 0;
+  color: #666666;
+  max-width: 100%;
+  margin: 0;
 }
 
+/* FORM LAYOUT SYSTEM */
 .premium-form {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 2.5rem;
+  box-sizing: border-box;
 }
 
-.form-group {
+.form-group.class-center-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
 }
 
-.form-group label {
-  font-size: 0.7rem;
+.form-group.class-center-group label {
+  font-size: 0.65rem;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #777777;
+  letter-spacing: 2px;
+  font-weight: 600;
+  color: #888888;
 }
 
-/* Custom styling to format the 6-digit entry values elegantly */
+/* Text tracking structure updates */
 .auth-input.code-spacing {
   width: 100%;
-  padding: 0.8rem 1rem;
-  border: 1px solid rgba(229, 197, 193, 0.6);
-  border-radius: 2px;
-  outline: none;
-  background-color: #faf6f5;
-  box-sizing: border-box;
-  text-align: center;
-  font-size: 1.6rem;
-  letter-spacing: 6px;
-  font-weight: 600;
+  max-width: 240px;
+  background: transparent !important;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  padding: 0.8rem 0;
+  font-size: 1.8rem;
+  font-weight: 400;
+  font-family: monospace, var(--font-sans);
   color: #111111;
-  font-family: monospace;
+  text-align: center;
+  letter-spacing: 0.65rem;
+  text-indent: 0.65rem; /* Balanced alignment fix */
+  transition: border-color 0.4s ease;
 }
 
 .auth-input.code-spacing:focus {
+  outline: none;
   border-color: #111111;
-  background-color: #ffffff;
 }
 
-.error-toast {
-  color: #b05c50;
-  font-size: 0.82rem;
-  margin: 0;
-  text-align: center;
-  font-weight: 600;
+.auth-input.code-spacing::placeholder {
+  color: #e0dcd5;
+}
+
+/* Safe Containment Actions wrapper */
+.form-actions {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .auth-action-btn {
+  width: 100%;
+  box-sizing: border-box;
   background-color: #111111;
   color: #ffffff;
   border: none;
-  padding: 0.95rem;
-  font-size: 0.85rem;
+  padding: 1.2rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   font-weight: 600;
   cursor: pointer;
-  border-radius: 2px;
-  transition: background-color 0.2s ease;
+  display: block;
+  transition: background-color 0.3s ease;
 }
 
-.auth-action-btn:hover {
-  background-color: #333333;
+.auth-action-btn:hover:not(:disabled) {
+  background-color: var(--color-accent, #c5a059);
 }
 
 .auth-action-btn:disabled {
-  background-color: #aaaaaa;
+  background-color: #ccc;
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
-.auth-switcher {
-  margin-top: 2rem;
-  font-size: 0.88rem;
-  color: #666666;
+.error-toast {
+  font-size: 0.85rem;
+  color: #8b263e;
+  font-weight: 600;
+  margin: -1rem 0 0 0;
   text-align: center;
+}
+
+/* SYSTEM SWITCHER FOOTER */
+.auth-switcher {
+  width: 100%;
+  margin-top: 2.5rem;
+  border-top: 1px solid #eee;
+  padding-top: 1.5rem;
+  text-align: center;
+}
+
+.auth-switcher p {
+  font-size: 0.85rem;
+  color: #666666;
+  margin: 0;
 }
 
 .resend-link-btn {
   background: none;
   border: none;
-  color: #111111;
-  font-weight: 700;
-  text-decoration: underline;
-  cursor: pointer;
   padding: 0;
-  font-family: inherit;
-  font-size: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #111111;
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-accent, #c5a059);
+  padding-bottom: 1px;
+  display: inline-block;
   margin-left: 0.2rem;
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+}
+
+.resend-link-btn:hover {
+  color: var(--color-accent, #c5a059);
+  border-bottom-color: #111111;
+}
+
+@media (max-width: 600px) {
+  .auth-form-pane.centered-pane {
+    padding: 3.5rem 2rem;
+  }
 }

@@ -1,149 +1,186 @@
-/* Dashboard Workspace Layout Structure Grid */
+/* ==========================================================================
+   WASO DECO: LUXURY WORKSPACE MANAGEMENT CONSOLE
+   ========================================================================== */
+
 .dashboard-wrapper {
-  display: flex;
-  height: 88vh;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
   background-color: #ffffff;
-  border-top: 1px solid rgba(229, 197, 193, 0.4);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Sidebar Styling Blocks */
+/* 1. SIDEBAR PROFILE & NAVIGATION ARCHITECTURE */
 .dashboard-sidebar {
-  width: 280px;
-  background-color: #faf6f5; /* Warm aesthetic brand neutral lookbook shade */
-  border-right: 1px solid rgba(229, 197, 193, 0.6);
+  background-color: #fcfbfa; /* Soft Ethereal Ivory variant */
+  border-right: 1px solid #eae6e1;
+  padding: 2.5rem 1.8rem;
   display: flex;
   flex-direction: column;
-  padding: 2rem 1.5rem;
-  box-sizing: border-box;
+  justify-content: space-between;
+  height: 100vh;
+  position: sticky;
+  top: 0;
 }
 
 .client-profile-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(229, 197, 193, 0.4);
-  margin-bottom: 2rem;
+  margin-bottom: 3.5rem;
 }
 
 .avatar-circle {
-  width: 45px;
-  height: 45px;
+  width: 42px;
+  height: 42px;
   background-color: #111111;
-  color: #ffffff;
-  border-radius: 50%;
+  color: #f8f5f0;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 0.9rem;
+  justify-content: center;
+  font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 1px;
 }
 
 .client-meta h3 {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #111111;
-  margin: 0;
+  margin: 0 0 0.15rem 0;
 }
 
-.client-meta span {
-  font-size: 0.72rem;
-  color: #777777;
+.status-badge {
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  color: #888888;
+  font-weight: 500;
 }
 
+/* Elegant Sidebar Links with Left Accent Underline Animators */
 .sidebar-nav-links {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  flex: 1;
+  gap: 0.5rem;
+  flex-grow: 1;
 }
 
 .nav-tab-btn {
-  width: 100%;
-  padding: 0.9rem 1.2rem;
-  background: transparent;
+  background: none;
   border: none;
-  border-radius: 4px;
-  text-align: left;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #555555;
-  cursor: pointer;
+  padding: 0.85rem 0;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
 
-.nav-tab-btn:hover {
-  background-color: rgba(229, 197, 193, 0.2);
-  color: #111111;
+.nav-indicator {
+  position: absolute;
+  left: -1.8rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #111111;
+  transform: scaleY(0);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.nav-tab-btn.active {
-  background-color: #ffffff;
+.nav-label {
+  font-size: 0.85rem;
+  color: #777777;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Interactive & Activated States */
+.nav-tab-btn.active .nav-indicator {
+  transform: scaleY(1);
+}
+
+.nav-tab-btn.active .nav-label,
+.nav-tab-btn:hover .nav-label {
   color: #111111;
   font-weight: 600;
-  border: 1px solid rgba(229, 197, 193, 0.5);
-  box-shadow: 0 2px 8px rgba(17, 17, 17, 0.02);
 }
 
-.sidebar-brand-footer {
-  font-size: 0.75rem;
-  color: #aaaaaa;
-  text-align: center;
+.sidebar-brand-footer p {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #b0aaa0;
+  margin: 0;
 }
 
-/* Master Viewport Content Panel Alignment */
+/* 2. MAIN INTERACTION VIEWPORT PANEL */
 .dashboard-content-panel {
-  flex: 1;
-  background-color: #ffffff;
+  padding: 4.5rem 5rem;
+  max-width: 1200px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .viewport-header {
-  padding: 2rem 3rem;
-  border-bottom: 1px solid rgba(229, 197, 193, 0.3);
+  margin-bottom: 3.5rem;
 }
 
 .viewport-header h2 {
-  font-size: 1.6rem;
-  font-weight: 500;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 400;
   color: #111111;
-  margin: 0 0 0.3rem 0;
+  margin: 0 0 0.8rem 0;
+  letter-spacing: -0.5px;
 }
 
-.viewport-header p {
-  font-size: 0.88rem;
+.viewport-subtitle {
+  font-size: 0.95rem;
   color: #666666;
+  line-height: 1.6;
   margin: 0;
 }
 
-/* Sub-View Layout A: Premium Messaging Window */
+.client-highlight {
+  color: var(--color-accent, #c5a059);
+  font-weight: 600;
+}
+
+/* 3. REAL-TIME LOOKBOOK COMMUNICATION HUB */
 .viewport-chat-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100vh - 12.5rem);
 }
 
 .chat-message-feed {
-  flex: 1;
-  padding: 2.5rem 3rem;
+  flex-grow: 1;
   overflow-y: auto;
+  padding-right: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  background-color: #fdfcfb;
+  margin-bottom: 2rem;
 }
 
+/* Minimal Custom Scrollbar Track */
+.chat-message-feed::-webkit-scrollbar,
+.form-scrollable-box::-webkit-scrollbar {
+  width: 4px;
+}
+.chat-message-feed::-webkit-scrollbar-thumb,
+.form-scrollable-box::-webkit-scrollbar-thumb {
+  background-color: #eae6e1;
+}
+
+/* Message Bubble Architecture */
 .message-bubble-wrapper {
   display: flex;
   justify-content: flex-start;
+  width: 100%;
 }
 
 .message-bubble-wrapper.client-aligned {
@@ -151,57 +188,64 @@
 }
 
 .message-bubble {
-  max-width: 60%;
-  padding: 1.2rem 1.5rem;
-  border-radius: 4px;
-  background-color: #ffffff;
-  border: 1px solid rgba(229, 197, 193, 0.4);
-  box-shadow: 0 2px 10px rgba(17, 17, 17, 0.01);
+  max-width: 65%;
+  background-color: #f7f5f2; /* Elegant soft stone tone for manager messages */
+  padding: 1.1rem 1.4rem;
+  position: relative;
 }
 
 .client-aligned .message-bubble {
-  background-color: #faf6f5;
-  border-color: rgba(229, 197, 193, 0.7);
+  background-color: #111111; /* Sharp onyx slate block for client text */
 }
 
 .bubble-text {
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.6;
+  margin: 0 0 0.5rem 0;
   color: #333333;
-  margin: 0 0 0.4rem 0;
+}
+
+.client-aligned .bubble-text {
+  color: #ffffff;
 }
 
 .bubble-time {
-  font-size: 0.7rem;
-  color: #aaaaaa;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #999999;
   display: block;
-  text-align: right;
 }
 
+.client-aligned .bubble-time {
+  color: #888888;
+}
+
+/* Input Dock Section */
 .chat-input-dock {
-  padding: 1.5rem 3rem;
-  background-color: #ffffff;
-  border-top: 1px solid rgba(229, 197, 193, 0.3);
+  border-top: 1px solid #eee;
+  padding-top: 1.5rem;
 }
 
 .dock-form {
-  display: flex;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
 }
 
 .dock-text-field {
-  flex: 1;
-  padding: 0.9rem 1.2rem;
-  border: 1px solid rgba(229, 197, 193, 0.5);
-  border-radius: 2px;
-  background-color: #faf6f5;
-  font-family: inherit;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  padding: 0.8rem 0;
   font-size: 0.95rem;
-  outline: none;
+  color: #111111;
+  background: transparent;
+  transition: border-color 0.3s ease;
 }
 
 .dock-text-field:focus {
-  background-color: #ffffff;
+  outline: none;
   border-color: #111111;
 }
 
@@ -209,44 +253,35 @@
   background-color: #111111;
   color: #ffffff;
   border: none;
-  padding: 0 2rem;
-  font-size: 0.8rem;
+  padding: 0.9rem 2.2rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   font-weight: 600;
   cursor: pointer;
-  border-radius: 2px;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
 .dock-send-btn:hover {
-  background-color: #333333;
+  background-color: var(--color-accent, #c5a059);
 }
 
-/* Sub-View Layout B: Minimal Event Inquiry Specification Form sheet */
-.viewport-inquiry-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
+/* 4. TECHNICAL SPECIFICATION PORTAL FORM */
 .form-scrollable-box {
-  flex: 1;
-  padding: 3rem;
-  overflow-y: auto;
+  flex-grow: 1;
 }
 
 .luxury-inquiry-form {
-  max-width: 750px;
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
+  gap: 2.2rem;
+  max-width: 850px;
 }
 
 .form-row-split {
   display: grid;
-  grid-template-columns: 1xl repeat(2, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
 }
 
 .form-element {
@@ -256,115 +291,186 @@
 }
 
 .form-element label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #666666;
-}
-
-.inquiry-input, .inquiry-select, .inquiry-textarea {
-  width: 100%;
-  padding: 0.85rem 1rem;
-  font-size: 0.95rem;
-  font-family: inherit;
-  border: 1px solid rgba(229, 197, 193, 0.6);
-  border-radius: 2px;
-  background-color: #faf6f5;
-  outline: none;
-  box-sizing: border-box;
-}
-
-.inquiry-input:focus, .inquiry-select:focus, .inquiry-textarea:focus {
-  border-color: #111111;
-  background-color: #ffffff;
-}
-
-.submit-portfolio-btn {
-  background-color: #111111;
-  color: #ffffff;
-  border: none;
-  padding: 1rem 2.5rem;
-  font-size: 0.85rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   font-weight: 600;
+  color: #888888;
+}
+
+/* Fine Structural Lines Over Native Box Borders */
+.inquiry-input,
+.inquiry-select,
+.inquiry-textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  padding: 0.6rem 0;
+  font-size: 0.95rem;
+  font-family: var(--font-sans), sans-serif;
+  color: #111111;
+  background-color: transparent;
+  transition: border-color 0.3s ease;
+}
+
+.inquiry-textarea {
+  resize: none;
+  line-height: 1.6;
+}
+
+.inquiry-input:focus,
+.inquiry-select:focus,
+.inquiry-textarea:focus {
+  outline: none;
+  border-color: #111111;
+}
+
+.submit-portfolio-btn {
   align-self: flex-start;
+  background-color: #111111;
+  color: #ffffff;
+  border: none;
+  padding: 1.2rem 3rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 2px;
-  transition: background-color 0.2s ease;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .submit-portfolio-btn:hover {
-  background-color: #333333;
+  background-color: var(--color-accent, #c5a059);
 }
 
-/* Submission Success Feedback Pane alert styles */
+/* 5. USER METRIC ALERTS & CONFIRMATIONS */
 .success-alert-pane {
   text-align: center;
-  max-width: 500px;
-  margin: 4rem auto;
-  padding: 3rem;
-  border: 1px solid rgba(229, 197, 193, 0.5);
-  background-color: #faf6f5;
-  border-radius: 4px;
+  padding: 5rem 2rem;
+  max-width: 550px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.success-icon {
+.success-icon-frame {
   width: 60px;
   height: 60px;
-  background-color: #cbb2ae;
-  color: #ffffff;
-  font-size: 1.8rem;
+  border: 1px solid #eae6e1;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin: 0 auto 1.5rem auto;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.success-checkmark {
+  font-size: 1.4rem;
+  color: #111111;
 }
 
 .success-alert-pane h3 {
-  font-size: 1.3rem;
-  font-weight: 500;
-  color: #111111;
-  margin: 0 0 0.5rem 0;
+  font-family: var(--font-serif), serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin: 0 0 1rem 0;
 }
 
 .success-alert-pane p {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #666666;
-  line-height: 1.5;
+  line-height: 1.6;
   margin: 0 0 2rem 0;
 }
 
 .return-chat-link {
-  background-color: #111111;
-  color: #ffffff;
+  background: none;
   border: none;
-  padding: 0.8rem 1.8rem;
   font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  color: #111111;
   cursor: pointer;
-  border-radius: 2px;
+  border-bottom: 1px solid #111111;
+  padding-bottom: 2px;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Responsiveness Adaptability handling */
-@media (max-width: 900px) {
+.return-chat-link:hover {
+  color: var(--color-accent, #c5a059);
+  border-color: var(--color-accent, #c5a059);
+}
+
+.system-error-banner {
+  background-color: #8b263e;
+  color: #ffffff;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* 6. RESPONSIVE SCALE VIEWPORTS */
+@media (max-width: 1024px) {
   .dashboard-wrapper {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
   .dashboard-sidebar {
-    width: 100%;
     height: auto;
-    padding: 1.5rem;
+    position: relative;
+    padding: 2rem;
+  }
+  .client-profile-header {
+    margin-bottom: 1.5rem;
+  }
+  .sidebar-nav-links {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+  .nav-indicator {
+    bottom: -2px;
+    top: auto;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 2px;
+    transform: scaleX(0);
+  }
+  .nav-tab-btn.active .nav-indicator {
+    transform: scaleX(1);
+  }
+  .dashboard-content-panel {
+    padding: 3rem 2rem;
+  }
+  .chat-message-feed {
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-nav-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .nav-indicator {
+    left: -2rem;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    height: auto;
+    transform: scaleY(0);
+  }
+  .nav-tab-btn.active .nav-indicator {
+    transform: scaleY(1);
   }
   .form-row-split {
     grid-template-columns: 1fr;
-  }
-  .chat-message-feed, .viewport-header, .chat-input-dock, .form-scrollable-box {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    gap: 1.8rem;
   }
 }

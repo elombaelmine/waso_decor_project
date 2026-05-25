@@ -11,16 +11,16 @@
     @if (isLoggedIn()) {
       <div class="review-write-box">
         <h3>Share Your Experience</h3>
-        <p>We would love to hear how we helped shape your custom atmosphere.</p>
+        <p class="form-sub-intro">We would love to hear how we helped shape your custom atmosphere.</p>
         
         @if (submissionSuccess()) {
-          <div class="success-alert-message" style="color: #c5a059; margin: 15px 0; font-weight: bold;">
+          <div class="success-alert-message">
             &#10004; Testimonial portfolio transmitted to management! It will appear publicly once verified by the design manager.
           </div>
         }
 
         @if (submissionError()) {
-          <div class="error-alert-message" style="color: #8b263e; margin: 15px 0;">
+          <div class="error-alert-message">
             {{ submissionError() }}
           </div>
         }
@@ -30,7 +30,7 @@
             <textarea 
               [(ngModel)]="newReviewContent"
               name="reviewContent"
-              placeholder="Write your review content here..." 
+              placeholder="Describe the mood, texture, and execution of your setup..." 
               class="testimonial-textarea"
               rows="4"
               required>
@@ -53,7 +53,7 @@
   <main class="testimonials-grid">
     @for (review of visibleTestimonials(); track review.id) {
       <div class="testimonial-card">
-        <div class="quote-icon">&#8220;</div>
+        <div class="quote-marker">“</div>
         <p class="review-text">{{ review.content }}</p>
         <div class="card-footer">
           <h3 class="client-name">{{ review.client_name }}</h3>

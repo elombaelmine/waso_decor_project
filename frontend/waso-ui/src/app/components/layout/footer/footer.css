@@ -1,52 +1,62 @@
+/* --- WASO DECO: EDITORIAL FOOTER (Maintains your Original HTML) --- */
+
 .footer {
-  background-color: #F5EFEB; /* Matches your luxury soft beige navbar base */
-  border-top: 1px solid #E5C5C1; /* Elegant Pink structural accent boundary */
-  padding: 3rem 2rem;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #FFFFFF;
+  border-top: 1px solid #E0E0E0;
+  padding: 5rem 4rem 2rem 4rem;
   color: #111111;
-  margin-top: auto; /* Pushes footer to the bottom of short pages */
+  margin-top: auto;
 }
 
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1.5rem;
+  display: flex; /* Keeping original container */
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Aligning Brand to the left */
+.footer-brand {
+  flex: 1;
 }
 
 .footer-brand h3 {
-  font-size: 1.2rem;
-  font-weight: 800;
-  letter-spacing: 3px;
-  margin: 0 0 0.5rem 0;
+  font-family: 'Georgia', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0 0 1rem 0;
 }
 
 .footer-brand p {
-  font-size: 0.9rem;
-  color: #555555; /* Soft charcoal for contrast readability against beige */
-  margin: 0;
+  max-width: 320px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
 }
 
+/* Aligning Meta links to the right */
 .footer-meta {
-  border-top: 1px solid rgba(229, 197, 193, 0.5); /* Subtle fading pink separator line */
-  padding-top: 1.5rem;
-  width: 100%;
+  flex: 1;
+  border-top: none; /* Removing your original border to match the clean look */
+  padding-top: 0;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .footer-location {
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: #555555;
-  margin: 0 0 0.5rem 0;
+  color: #000;
+  margin: 0;
 }
 
 .footer-copyright {
-  font-size: 0.8rem;
-  color: #777777;
+  font-size: 0.75rem;
+  color: #777;
   margin: 0;
 }

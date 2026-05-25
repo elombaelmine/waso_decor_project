@@ -26,35 +26,37 @@
     </div>
 
     <div class="featured-grid">
+      
       <div class="collection-card">
-        <div class="card-image-placeholder">
+        <div class="card-image-placeholder" style="background-image: url('wedding.jpeg');">
           <span>Premium Wedding Gala Layout</span>
         </div>
+        
         <div class="card-details">
           <h3>Minimalist Romance</h3>
           <p>Soft drapes, warm candle arrays, and clean botanical installations.</p>
         </div>
       </div>
 
-      <div class="collection-card">
-        <div class="card-image-placeholder">
-          <span>Corporate Banquet Layout</span>
-        </div>
-        <div class="card-details">
-          <h3>Modern Sophistication</h3>
-          <p>Sharp monochrome geometries blended with structural pastel accents.</p>
-        </div>
+     <div class="collection-card">
+      <div class="card-image-placeholder" [style.background-image]="'url(coporate.jpeg)'">
+        <span>Corporate Banquet Layout</span>
       </div>
+      <div class="card-details">
+        <h3>Modern Sophistication</h3>
+        <p>Sharp monochrome geometries blended with structural pastel accents.</p>
+      </div>
+    </div>
 
-      <div class="collection-card">
-        <div class="card-image-placeholder">
-          <span>Intimate Luxury Banquet</span>
-        </div>
-        <div class="card-details">
-          <h3>Bespoke Intimacy</h3>
-          <p>Rich texturing, custom lighting scapes, and elite tabletop curation.</p>
-        </div>
+    <div class="collection-card">
+      <div class="card-image-placeholder" [style.background-image]="'url(intimate.jpeg)'">
+        <span>Intimate Luxury Banquet</span>
       </div>
+      <div class="card-details">
+        <h3>Bespoke Intimacy</h3>
+        <p>Rich texturing, custom lighting scapes, and elite tabletop curation.</p>
+      </div>
+    </div>
     </div>
   </section>
 

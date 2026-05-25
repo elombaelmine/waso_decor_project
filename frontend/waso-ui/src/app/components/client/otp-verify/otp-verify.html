@@ -3,14 +3,15 @@
     
     <div class="auth-form-pane centered-pane">
       <header class="auth-header">
-        <div class="security-badge">&#128274;</div>
+        <div class="security-badge-frame">
+          <span class="security-dot"></span>
+        </div>
         <h1>Verify Your Identity</h1>
         <p class="auth-subtitle">We have sent a unique 6-digit verification code to your email address. Enter the code below to finish activating your lookbook portal profile.</p>
       </header>
 
       <form (ngSubmit)="onVerifySubmit()" class="premium-form">
-        
-        <div class="form-group">
+        <div class="form-group class-center-group">
           <label for="otpCodeInput">One-Time Activation Code</label>
           <input 
             type="text" 
@@ -27,9 +28,11 @@
           <p class="error-toast">{{ errorMessage() }}</p>
         }
 
-        <button type="submit" class="auth-action-btn" [disabled]="isSubmitting()">
-          {{ isSubmitting() ? 'Activating Profile...' : 'Confirm Account' }}
-        </button>
+        <div class="form-actions">
+          <button type="submit" class="auth-action-btn" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Activating Profile...' : 'Confirm Account' }}
+          </button>
+        </div>
       </form>
 
       <footer class="auth-switcher">

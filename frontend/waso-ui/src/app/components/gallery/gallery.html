@@ -9,20 +9,24 @@
   <div class="filter-panel">
     <div class="dropdown-group">
       <label for="eventTypeSelect">Event Framework</label>
-      <select id="eventTypeSelect" [(ngModel)]="selectedEventType" class="gallery-select">
-        @for (type of availableEventTypes(); track type) {
-          <option [value]="type">{{ type }}</option>
-        }
-      </select>
+      <div class="custom-select-wrapper">
+        <select id="eventTypeSelect" [(ngModel)]="selectedEventType" class="gallery-select">
+          @for (type of availableEventTypes(); track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </div>
     </div>
 
     <div class="dropdown-group">
       <label for="colorSelect">Color Theme</label>
-      <select id="colorSelect" [(ngModel)]="selectedColor" class="gallery-select">
-        @for (color of availableColors(); track color) {
-          <option [value]="color">{{ color }}</option>
-        }
-      </select>
+      <div class="custom-select-wrapper">
+        <select id="colorSelect" [(ngModel)]="selectedColor" class="gallery-select">
+          @for (color of availableColors(); track color) {
+            <option [value]="color">{{ color }}</option>
+          }
+        </select>
+      </div>
     </div>
   </div>
 

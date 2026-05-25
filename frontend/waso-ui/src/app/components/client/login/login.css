@@ -1,59 +1,90 @@
-/* Mirroring structural dimensions of registration canvases precisely */
+/* ==========================================================================
+   WASO DECO: LUXURY CLIENT GATEWAY LOGIN
+   ========================================================================== */
+
 .auth-wrapper {
-  min-height: 85vh;
+  background-color: #F8F5F0; /* Cream canvas color matching the gallery frame */
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: #faf6f5;
-  padding: 3rem 2rem;
+  justify-content: center;
+  padding: 4rem 2rem;
 }
 
 .auth-card {
-  background-color: #ffffff;
+  background-color: var(--color-bg);
   width: 100%;
-  max-width: 900px;
-  min-height: 550px;
-  border: 1px solid rgba(229, 197, 193, 0.5);
-  border-radius: 4px;
-  display: flex;
-  overflow: hidden;
-  box-shadow: 0 15px 40px rgba(17, 17, 17, 0.03);
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr; /* Asymmetric split layout */
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.06);
+  min-height: 680px;
 }
 
+/* 1. LEFT ATMOSPHERIC BRAND PANE */
 .auth-brand-pane {
-  flex: 1;
-  background-color: #111111;
-  background-image: linear-gradient(rgba(17, 17, 17, 0.1), rgba(17, 17, 17, 0.8)), url('/public/images/auth-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: flex-end;
-  padding: 3rem;
+  background-color: #111111; /* Deep rich onyx slate base */
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4.5rem;
+}
+
+/* Fine-dot lookbook design lattice overlay */
+.auth-brand-pane::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0.03;
+  background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0);
+  background-size: 16px 16px;
+  pointer-events: none;
 }
 
 .pane-overlay {
-  color: #ffffff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
   z-index: 2;
 }
 
-.pane-overlay h2 {
-  font-size: 2rem;
+.brand-content h2 {
+  font-family: var(--font-serif);
+  font-size: 2.8rem;
   font-weight: 400;
+  color: #F8F5F0;
+  letter-spacing: -0.5px;
+  margin-bottom: 1.5rem;
+}
+
+.pane-accent-line {
+  width: 40px;
+  height: 1px;
+  background-color: var(--color-accent); /* Elegant sand line */
+  margin-bottom: 2rem;
+}
+
+.brand-content p {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #aaa;
+  max-width: 320px;
+}
+
+.pane-footer-meta {
+  font-size: 0.65rem;
+  text-transform: uppercase;
   letter-spacing: 2px;
-  margin: 0 0 0.5rem 0;
+  color: #666;
 }
 
-.pane-overlay p {
-  font-size: 0.9rem;
-  color: #e5c5c1;
-  line-height: 1.5;
-  margin: 0;
-}
-
+/* 2. RIGHT LOGIN INPUT PANE */
 .auth-form-pane {
-  flex: 1.2;
-  padding: 4rem 3.5rem;
+  padding: 5rem 4.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -61,110 +92,143 @@
 }
 
 .auth-header {
-  margin-bottom: 2rem;
+  margin-bottom: 3.5rem;
 }
 
 .auth-header h1 {
-  font-size: 2rem;
-  font-weight: 500;
-  color: #111111;
-  margin: 0 0 0.5rem 0;
-  letter-spacing: 0.5px;
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  color: var(--color-text);
+  margin-bottom: 1rem;
 }
 
 .auth-subtitle {
-  font-size: 0.88rem;
-  color: #666666;
-  line-height: 1.5;
-  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #666;
 }
 
+/* 3. LUXURY FORM SYSTEM */
 .premium-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 2.2rem;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  position: relative;
 }
 
 .form-group label {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #777777;
+  letter-spacing: 2px;
+  font-weight: 600;
+  color: #888;
 }
 
+/* Fine structural underline style inputs over thick browser borders */
 .auth-input {
   width: 100%;
-  padding: 0.8rem 1rem;
-  font-size: 0.95rem;
-  font-family: inherit;
-  border: 1px solid rgba(229, 197, 193, 0.6);
-  border-radius: 2px;
-  outline: none;
-  background-color: #faf6f5;
-  box-sizing: border-box;
+  background-color: transparent !important;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  padding: 0.6rem 0;
+  font-size: 1rem;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  transition: border-color 0.4s ease;
 }
 
 .auth-input:focus {
-  border-color: #111111;
-  background-color: #ffffff;
+  outline: none;
+  border-color: var(--color-accent);
 }
 
+/* Overriding and clearing out persistent default browser background colors */
+.auth-input:-webkit-autofill,
+.auth-input:-webkit-autofill:hover, 
+.auth-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-text) !important;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Buttons and Links */
 .auth-action-btn {
+  margin-top: 1.5rem;
   background-color: #111111;
   color: #ffffff;
   border: none;
-  padding: 0.95rem;
-  font-size: 0.85rem;
+  padding: 1.2rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 0.5rem;
-  border-radius: 2px;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.auth-action-btn:hover {
-  background-color: #333333;
+.auth-action-btn:hover:not(:disabled) {
+  background-color: var(--color-accent);
 }
 
 .auth-action-btn:disabled {
-  background-color: #aaaaaa;
+  background-color: #ccc;
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .error-toast {
-  color: #b05c50;
-  font-size: 0.82rem;
-  margin: 0;
+  font-size: 0.85rem;
+  color: #8b263e;
   font-weight: 600;
+  margin: 0;
 }
 
 .auth-switcher {
-  margin-top: 2rem;
+  margin-top: 3rem;
   text-align: center;
+  border-top: 1px solid #eee;
+  padding-top: 2rem;
+}
+
+.auth-switcher p {
   font-size: 0.9rem;
-  color: #666666;
+  color: #666;
+  margin: 0;
 }
 
 .toggle-link {
-  color: #111111;
-  font-weight: 700;
-  text-decoration: underline;
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-accent);
+  padding-bottom: 1px;
+  transition: color 0.2s ease;
 }
 
-@media (max-width: 768px) {
+.toggle-link:hover {
+  color: var(--color-accent);
+}
+
+/* Responsive Overrides */
+@media (max-width: 900px) {
+  .auth-card {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
   .auth-brand-pane {
-    display: none;
+    padding: 3rem;
+    min-height: 220px;
   }
   .auth-form-pane {
-    padding: 3rem 1.5rem;
+    padding: 3.5rem 2rem;
   }
 }

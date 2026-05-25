@@ -5,7 +5,7 @@
       <div class="avatar-circle">WC</div>
       <div class="client-meta">
         <h3>Verified Client</h3>
-        <span>Workspace Activated</span>
+        <span class="status-badge">Workspace Activated</span>
       </div>
     </div>
 
@@ -14,14 +14,16 @@
         class="nav-tab-btn" 
         [class.active]="activeTab() === 'chat'" 
         (click)="switchView('chat')">
-        <span class="icon">&#128172;</span> Chat with Manager
+        <span class="nav-indicator"></span>
+        <span class="nav-label">Chat with Manager</span>
       </button>
       
       <button 
         class="nav-tab-btn" 
         [class.active]="activeTab() === 'inquiry'" 
         (click)="switchView('inquiry')">
-        <span class="icon">&#128196;</span> Submit Event Inquiry
+        <span class="nav-indicator"></span>
+        <span class="nav-label">Submit Event Inquiry</span>
       </button>
     </nav>
 
@@ -33,7 +35,7 @@
   <main class="dashboard-content-panel">
     
     @if (errorMessage()) {
-      <div class="system-error-banner" style="background-color: #8b263e; color: #ffffff; padding: 10px; margin-bottom: 15px; border-radius: 4px; font-size: 0.9rem;">
+      <div class="system-error-banner">
         <p>{{ errorMessage() }}</p>
       </div>
     }
@@ -42,7 +44,9 @@
       <div class="viewport-chat-container">
         <header class="viewport-header">
           <h2>Design Room Chat</h2>
-          <p>Welcome, <strong style="color: #c5a059;">{{ userEmail }}</strong>. Direct live tracking feed with Waso atmospheric managers.</p>
+          <p class="viewport-subtitle">
+            Welcome, <span class="client-highlight">{{ userEmail }}</span>. Direct live tracking feed with Waso atmospheric managers.
+          </p>
         </header>
 
         <div class="chat-message-feed">
@@ -75,13 +79,15 @@
       <div class="viewport-inquiry-container">
         <header class="viewport-header">
           <h2>Bespoke Event Specification</h2>
-          <p>Fill out your technical parameters to submit an inquiry packet directly to management.</p>
+          <p class="viewport-subtitle">Fill out your technical parameters to submit an inquiry packet directly to management.</p>
         </header>
 
         <div class="form-scrollable-box">
           @if (inquirySubmitted()) {
             <div class="success-alert-pane">
-              <div class="success-icon">&#10004;</div>
+              <div class="success-icon-frame">
+                <span class="success-checkmark">✓</span>
+              </div>
               <h3>Inquiry Portfolio Transmitted</h3>
               <p>Your choices are logged. Use the chat window to confirm appointment availability with the design manager.</p>
               <button class="return-chat-link" (click)="switchView('chat')">Return to Chat Room</button>
@@ -91,8 +97,8 @@
               
               <div class="form-row-split">
                 <div class="form-element">
-                  <label>Atmosphere / Event Type</label>
-                  <select [(ngModel)]="eventType" name="eventType" required class="inquiry-select">
+                  <label for="executionSpace">Atmosphere / Event Type</label>
+                  <select id="executionSpace" [(ngModel)]="eventType" name="eventType" required class="inquiry-select">
                     <option value="" disabled selected>Select execution space...</option>
                     <option value="Bespoke Wedding Curation">Luxury Wedding Curation</option>
                     <option value="Corporate Gala Portfolio">Corporate Gala Portfolio</option>
@@ -102,38 +108,39 @@
                 </div>
 
                 <div class="form-element">
-                  <label>Proposed Event Date</label>
-                  <input type="date" [(ngModel)]="eventDate" name="eventDate" required class="inquiry-input">
+                  <label for="eventDate">Proposed Event Date</label>
+                  <input id="eventDate" type="date" [(ngModel)]="eventDate" name="eventDate" required class="inquiry-input">
                 </div>
               </div>
 
               <div class="form-row-split">
                 <div class="form-element">
-                  <label>Target Town / Region Location</label>
-                  <input type="text" [(ngModel)]="town" name="town" required placeholder="e.g., Yaoundé" class="inquiry-input">
+                  <label for="locationTown">Target Town / Region Location</label>
+                  <input id="locationTown" type="text" [(ngModel)]="town" name="town" required placeholder="e.g., Yaoundé" class="inquiry-input">
                 </div>
 
                 <div class="form-element">
-                  <label>Estimated Budget Metric (XAF)</label>
-                  <input type="number" [(ngModel)]="budgetEstimate" name="budgetEstimate" required placeholder="e.g., 2000000" class="inquiry-input">
+                  <label for="budgetMetric">Estimated Budget Metric (XAF)</label>
+                  <input id="budgetMetric" type="number" [(ngModel)]="budgetEstimate" name="budgetEstimate" required placeholder="e.g., 2000000" class="inquiry-input">
                 </div>
               </div>
 
               <div class="form-row-split">
                 <div class="form-element">
-                  <label>Estimated Guest Metrics</label>
-                  <input type="number" [(ngModel)]="guestCount" name="guestCount" required placeholder="e.g., 250" class="inquiry-input">
+                  <label for="guestMetrics">Estimated Guest Metrics</label>
+                  <input id="guestMetrics" type="number" [(ngModel)]="guestCount" name="guestCount" required placeholder="e.g., 250" class="inquiry-input">
                 </div>
 
                 <div class="form-element">
-                  <label>Color Swatch Preferences</label>
-                  <input type="text" [(ngModel)]="colorPalette" name="colorPalette" required placeholder="e.g., Ivory, Gold, Sage Green" class="inquiry-input">
+                  <label for="colorSwatch">Color Swatch Preferences</label>
+                  <input id="colorSwatch" type="text" [(ngModel)]="colorPalette" name="colorPalette" required placeholder="e.g., Ivory, Gold, Sage Green" class="inquiry-input">
                 </div>
               </div>
 
               <div class="form-element">
-                <label>Specific Decoration & Curation Requirements</label>
+                <label for="specificDetails">Specific Decoration & Curation Requirements</label>
                 <textarea 
+                  id="specificDetails"
                   [(ngModel)]="specificDetails" 
                   name="specificDetails" 
                   rows="4" 

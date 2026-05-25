@@ -3,8 +3,14 @@
     
     <div class="auth-brand-pane">
       <div class="pane-overlay">
-        <h2>Waso Deco</h2>
-        <p>Bespoke Event Design & Luxury Atmospheric Curations</p>
+        <div class="brand-content">
+          <h2>Waso Deco</h2>
+          <div class="pane-accent-line"></div>
+          <p>Bespoke Event Design & Luxury Atmospheric Curations</p>
+        </div>
+        <footer class="pane-footer-meta">
+          <span>Based in Cameroon • Serving Exceptional Events</span>
+        </footer>
       </div>
     </div>
 
@@ -43,7 +49,7 @@
               placeholder="••••••••" 
               class="auth-input with-icon">
             <button type="button" class="visibility-toggle-btn" (click)="togglePasswordVisibility('pass')">
-              {{ showPassword() ? '👁️' : '🙈' }}
+              {{ showPassword() ? 'HIDE' : 'SHOW' }}
             </button>
           </div>
         </div>
@@ -60,7 +66,7 @@
               placeholder="••••••••" 
               class="auth-input with-icon">
             <button type="button" class="visibility-toggle-btn" (click)="togglePasswordVisibility('confirm')">
-              {{ showConfirmPassword() ? '👁️' : '🙈' }}
+              {{ showConfirmPassword() ? 'HIDE' : 'SHOW' }}
             </button>
           </div>
         </div>

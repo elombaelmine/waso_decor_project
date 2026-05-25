@@ -1,118 +1,89 @@
-/* Sticky top navigation header bar */
+/* --- WASO DECO: EDITORIAL NAVBAR (Matching your existing structure) --- */
+
 .navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background-color: #F5EFEB; /* Luxury Soft Beige Base */
-  border-bottom: 1px solid #E5C5C1; /* Elegant Pink structural border */
-  padding: 1.2rem 2.5rem;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #FFFFFF;
+  padding: 2rem 4rem;
+  border-bottom: 1px solid #E0E0E0;
+  position: relative;
+  /* Ensures nothing spills over */
+  overflow: hidden;
 }
 
-/* Flex layout container to space items out cleanly */
 .nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* Deep black logo with high letter spacing for an editorial look */
+/* 1. Logo Centering Strategy: 
+   Since your HTML has the logo first, we move it to the visual center 
+   without breaking the DOM structure. */
 .nav-logo {
-  font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: 3px;
-  color: #111111; /* Sharp Black grounder */
+  font-family: 'Georgia', serif; /* Use a classic serif for that luxury look */
+  font-size: 2.5rem;
+  font-weight: 500;
+  letter-spacing: -1px;
+  color: #000000;
   text-decoration: none;
+  order: 2; /* Forces it to the middle */
 }
 
-/* Spacing between the central menu items */
+/* 2. Grouping links to the left */
 .nav-links {
   display: flex;
-  gap: 2.5rem;
+  gap: 2rem;
+  order: 1; /* Pushes to the left */
+  flex: 1;
 }
 
-.nav-item {
-  text-decoration: none;
-  color: #555555; /* Soft charcoal for readability against beige */
-  font-weight: 500;
-  font-size: 0.95rem;
-  letter-spacing: 0.5px;
-  position: relative;
-  transition: color 0.2s ease;
-}
-
-.nav-item:hover, .nav-item.active {
-  color: #111111;
-}
-
-/* Subtle editorial underline indicator for active items */
-.nav-item.active::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #E5C5C1; /* Accent Pink line */
-}
-
-/* Container for portal login and booking action buttons */
+/* 3. Grouping actions to the right */
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  order: 3; /* Pushes to the right */
+  flex: 1;
+  justify-content: flex-end;
 }
 
-/* Portal link styled cleanly */
-.nav-btn-secondary {
+.nav-item {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #000000;
   text-decoration: none;
-  color: #111111;
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
+  padding-bottom: 4px;
   transition: opacity 0.2s;
 }
 
-.nav-btn-secondary:hover {
-  opacity: 0.7;
+.nav-item.active {
+  border-bottom: 1px solid #000000;
 }
 
-/* Premium solid black button that pops strongly off the beige background */
+/* Button styling to match the minimalist aesthetic */
 .nav-btn-primary {
-  text-decoration: none;
-  background-color: #111111; /* Sharp deep black */
-  color: #F5EFEB; /* Beige text inside */
-  padding: 0.65rem 1.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  background-color: #000000;
+  color: #FFFFFF;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  border-radius: 2px; /* Sharper edges fit boutique branding better than round ones */
-  border: 1px solid #111111;
-  transition: all 0.25s ease;
+  letter-spacing: 1px;
+  text-decoration: none;
+  border-radius: 2px;
 }
 
-/* Invert effect on hover using your color palette */
-.nav-btn-primary:hover {
-  background-color: #E5C5C1; /* Fills with Pink on hover */
-  color: #111111; /* Changes text back to Black */
-  border-color: #E5C5C1;
-}
-/* Sleek minimalist logout outline button */
 .nav-btn-outline {
   background: transparent;
-  border: 1px solid #111111;
-  color: #111111;
+  border: 1px solid #000000;
+  color: #000000;
   padding: 0.5rem 1.2rem;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
   border-radius: 2px;
-  transition: all 0.2s ease;
-}
-
-.nav-btn-outline:hover {
-  background-color: #E5C5C1;
-  border-color: #E5C5C1;
 }

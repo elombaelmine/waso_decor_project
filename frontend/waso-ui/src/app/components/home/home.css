@@ -1,202 +1,183 @@
-/* Base wrapper utilizing your rare luxury beige background */
+/* --- WASO DECO: HOME EDITORIAL LAYOUT --- */
+
 .home-wrapper {
-  background-color: #F5EFEB;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  color: #111111;
-  padding-bottom: 4rem;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
 }
 
-/* --- HERO SECTION STYLES --- */
+/* 1. HERO SECTION */
 .hero-section {
-  min-height: 70vh;
+  min-height: 85vh;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding: 4rem 6rem;
-  /* Soft pink to beige radial glow to give depth without adding heavy images yet */
-  background: radial-gradient(circle at 80% 50%, #E5C5C1 0%, #F5EFEB 70%);
-}
-
-.hero-content {
-  max-width: 650px;
+  padding: 0 4rem;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
 .hero-subtitle {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.3rem;
   text-transform: uppercase;
-  letter-spacing: 3px;
-  font-weight: 700;
-  color: #555555;
-  display: inline-block;
-  margin-bottom: 1rem;
+  color: #888;
+  display: block;
+  margin-bottom: 2rem;
 }
 
 .hero-title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -1px;
-  margin: 0 0 1.5rem 0;
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  line-height: 0.9;
+  letter-spacing: -2px;
+  margin-bottom: 2.5rem;
+  color: var(--color-text);
 }
 
 .hero-description {
+  max-width: 550px;
   font-size: 1.1rem;
-  line-height: 1.6;
-  color: #444444;
-  margin: 0 0 2.5rem 0;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 3.5rem;
 }
 
 .hero-actions {
   display: flex;
-  gap: 1.5rem;
+  gap: 2.5rem;
   align-items: center;
 }
 
-/* Consistent premium action buttons */
 .btn-primary {
+  background: var(--color-text);
+  color: #fff;
+  padding: 1.2rem 2.5rem;
   text-decoration: none;
-  background-color: #111111;
-  color: #F5EFEB;
-  padding: 0.9rem 2rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
   text-transform: uppercase;
-  border-radius: 2px;
-  border: 1px solid #111111;
-  transition: all 0.25s ease;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  background-color: #E5C5C1;
-  color: #111111;
-  border-color: #E5C5C1;
+  background: var(--color-accent);
 }
 
 .btn-secondary {
+  color: var(--color-text);
   text-decoration: none;
-  color: #111111;
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
   text-transform: uppercase;
-  border-bottom: 2px solid #111111;
-  padding-bottom: 4px;
-  transition: all 0.2s ease;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  border-bottom: 1px solid var(--color-text);
+  padding-bottom: 2px;
 }
 
-.btn-secondary:hover {
-  color: #555555;
-  border-color: #E5C5C1;
-}
-
-/* --- FEATURED SECTION STYLES --- */
+/* 2. FEATURED GRID & BOUNCY CARDS */
 .featured-section {
-  max-width: 1200px;
-  margin: 6rem auto;
-  padding: 0 2rem;
+  padding: 8rem 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .section-header {
-  text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 6rem;
 }
 
 .section-header h2 {
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  margin: 0 0 0.75rem 0;
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .line-accent {
   width: 50px;
-  height: 2px;
-  background-color: #E5C5C1; /* Accent Pink Separator */
-  margin: 0 auto 1rem auto;
+  height: 1px;
+  background-color: var(--color-accent);
+  margin-bottom: 1.5rem;
 }
 
-.section-header p {
-  color: #666666;
-  font-size: 1rem;
-}
-
-/* Modern editorial grid spacing */
 .featured-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
 }
 
 .collection-card {
-  background: #ffffff;
-  border: 1px solid rgba(229, 197, 193, 0.4); /* Faint pink framing card border */
-  border-radius: 2px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .collection-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+  transform: translateY(-15px);
 }
 
-/* Stylish temporary placeholder blocks to simulate high-end photos */
 .card-image-placeholder {
-  height: 320px;
-  background-color: #E5C5C1; /* Soft pink block */
-  color: #111111;
+  height: 550px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  opacity: 0.85;
+  background-color: #ddd;
+  margin-bottom: 2rem;
 }
 
-.card-details {
-  padding: 1.5rem;
+.card-image-placeholder::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  transition: background 0.4s ease;
+}
+
+.collection-card:hover .card-image-placeholder::before {
+  background: rgba(0,0,0,0.1);
+}
+
+.card-image-placeholder span {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .card-details h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  color: var(--color-deep);
 }
 
 .card-details p {
-  font-size: 0.9rem;
-  color: #555555;
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* --- TESTIMONIAL PREVIEW STYLES --- */
-.testimonial-preview {
-  background-color: #E5C5C1; /* Solid Pink Block section */
-  color: #111111;
-  padding: 5rem 2rem;
-  text-align: center;
-}
-
-.preview-card {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.preview-card .quote {
-  font-size: 1.4rem;
-  font-weight: 500;
+  color: #666;
+  font-size: 0.95rem;
   line-height: 1.6;
-  font-style: italic;
-  margin: 0 0 1.5rem 0;
 }
 
-.preview-card .author {
-  font-size: 0.85rem;
+/* 3. TESTIMONIALS */
+.testimonial-preview {
+  padding: 8rem 4rem;
+  text-align: center;
+  background-color: var(--color-bg);
+}
+
+.quote {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-style: italic;
+  max-width: 850px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.4;
+}
+
+.author {
+  font-size: 0.75rem;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  color: #888;
 }
