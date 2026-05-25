@@ -31,7 +31,12 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-for-local-dev
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['waso-decor-project-backend.onrender.com', '127.0.0.1', 'localhost']
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://waso-decor-project-frontend.vercel.app",
+    "https://*.vercel.app" # Adds support for preview deployments
+]
 
 
 # Application definition
@@ -57,6 +62,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # MUST be at the top! for CORS to work properly
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -133,6 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # For local development, allow all origins. 
 # We will lock this down to your Vercel URL before final grading.
@@ -159,7 +166,7 @@ SIMPLE_JWT = {
 
 # Configure Media Settings for User/Manager Uploaded files (like Gallery Images)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # ==============================================================================
@@ -172,3 +179,4 @@ EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
 
 # The official verified sending domain identity visible to clients in their inboxes
 DEFAULT_FROM_EMAIL = "Waso Deco <management@saintjeaningenieur.org>"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
