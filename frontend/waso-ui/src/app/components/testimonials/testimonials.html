@@ -13,18 +13,37 @@
         <h3>Share Your Experience</h3>
         <p>We would love to hear how we helped shape your custom atmosphere.</p>
         
-        <div class="form-group">
-          <textarea 
-            placeholder="Write your review content here..." 
-            class="testimonial-textarea"
-            rows="4">
-          </textarea>
-        </div>
-        <button class="submit-review-btn">Publish Testimonial</button>
+        @if (submissionSuccess()) {
+          <div class="success-alert-message" style="color: #c5a059; margin: 15px 0; font-weight: bold;">
+            &#10004; Testimonial portfolio transmitted to management! It will appear publicly once verified by the design manager.
+          </div>
+        }
+
+        @if (submissionError()) {
+          <div class="error-alert-message" style="color: #8b263e; margin: 15px 0;">
+            {{ submissionError() }}
+          </div>
+        }
+
+        <form (ngSubmit)="submitTestimonial()">
+          <div class="form-group">
+            <textarea 
+              [(ngModel)]="newReviewContent"
+              name="reviewContent"
+              placeholder="Write your review content here..." 
+              class="testimonial-textarea"
+              rows="4"
+              required>
+            </textarea>
+          </div>
+          <button type="submit" class="submit-review-btn" [disabled]="!newReviewContent().trim()">
+            Publish Testimonial
+          </button>
+        </form>
       </div>
     } @else {
       <div class="auth-prompt-box">
-        <p>Have we decorated an event for you? <a routerLink="/login" class="auth-link">Log in to your account</a> to write your testimonial review.</p>
+        <p>Have we decorated an event for you? <a routerLink="/client/login" routerLinkActive="active" class="auth-link">Log in to your account</a> to write your testimonial review.</p>
       </div>
     }
   </div>

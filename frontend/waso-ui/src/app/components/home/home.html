@@ -8,7 +8,11 @@
         For curators, dreamers, and professional event planners. We transform standard venues into breathtaking, atmospheric realities using striking spatial design and premium floral concepts.
       </p>
       <div class="hero-actions">
-        <a class="btn-primary" routerLink="/book">Inquire About An Event</a>
+        @if (!isLoggedIn()) {
+          <a class="btn-primary" routerLink="/client/sign-up">Inquire About An Event</a>
+        } @else {
+          <a class="btn-primary" routerLink="/client/chat">Go to My Portal</a>
+        }
         <a class="btn-secondary" routerLink="/gallery">Explore Lookbook</a>
       </div>
     </div>

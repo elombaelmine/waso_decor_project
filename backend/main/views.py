@@ -5,11 +5,13 @@ import random
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from .models import GalleryItem, Inquiry, Testimonial, UserProfileOTP
-from .serializers import GalleryItemSerializer, InquirySerializer, TestimonialSerializer
 from django.core.mail import send_mail
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from .models import GalleryItem, Inquiry, Testimonial, UserProfileOTP, ChatMessage
+from .serializers import GalleryItemSerializer, InquirySerializer, TestimonialSerializer, ChatMessageSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
 
 class GalleryItemViewSet(viewsets.ModelViewSet):
     """
@@ -26,16 +28,20 @@ class GalleryItemViewSet(viewsets.ModelViewSet):
 
 
 class TestimonialViewSet(viewsets.ModelViewSet):
-    """
-    Handles the Social Proof testimonials.
-    """
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer
+    
+    # 1. Enforcement Guard: Anyone can READ, but only logged-in accounts can POST
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def get_queryset(self):
-        if self.request.user.is_staff:
-            return Testimonial.objects.all()
-        return Testimonial.objects.filter(is_visible=True)
+    # 2. Identity Guard: Auto-inject the user's real account name securely on save
+    def perform_create(self, serializer):
+        # Extract full name or fallback to the clean account username string
+        user = self.request.user
+        full_name = f"{user.first_name} {user.last_name}".strip()
+        final_name = full_name if full_name else user.username
+        
+        serializer.save(client_name=final_name)
 
 
 class InquiryViewSet(viewsets.ModelViewSet):
@@ -199,3 +205,50 @@ def verify_otp_view(request):
             
     except User.DoesNotExist:
         return Response({"error": "Account target parameter not identified."}, status=status.HTTP_404_NOT_FOUND)
+    
+class ChatMessageViewSet(viewsets.ModelViewSet):
+    """
+    Handles fetching and sending messages within the Design Room Chat.
+    Enforces data ownership: clients are limited to their own records,
+    while staff can access and manage conversations per client room.
+    """
+    serializer_class = ChatMessageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        
+        # If staff, they can filter messages for a specific client room using ?client_id=X
+        if user.is_staff:
+            target_client_id = self.request.query_params.get('client_id')
+            if target_client_id:
+                return ChatMessage.objects.filter(user_id=target_client_id).order_by('created_at')
+            return ChatMessage.objects.all().order_by('created_at')
+        
+        # Regular clients can only see their own chat messages (Strict Ownership Filtering)
+        return ChatMessage.objects.filter(user=user).order_by('created_at')
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        
+        # If staff is writing, attach the message to the client room they are currently viewing
+        if user.is_staff:
+            target_client_id = self.request.data.get('client_id')
+            if target_client_id:
+                try:
+                    target_user = User.objects.get(id=target_client_id)
+                    serializer.save(
+                        user=target_user,
+                        sender_name=f"Manager ({user.first_name or user.username})",
+                        is_from_staff=True
+                    )
+                    return
+                except User.DoesNotExist:
+                    pass
+
+        # If a regular client is writing, link it directly to their account
+        serializer.save(
+            user=user,
+            sender_name=user.first_name or user.username,
+            is_from_staff=False
+        )

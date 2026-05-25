@@ -4,6 +4,7 @@ from .views import (
     GalleryItemViewSet, 
     InquiryViewSet, 
     TestimonialViewSet,
+    ChatMessageViewSet,  # 1. Imported our new viewset
     client_registration_view,  
     verify_otp_view            
 )
@@ -13,6 +14,7 @@ router = DefaultRouter()
 router.register(r'gallery', GalleryItemViewSet, basename='galleryitem')
 router.register(r'inquiries', InquiryViewSet, basename='inquiry')
 router.register(r'testimonials', TestimonialViewSet, basename='testimonial')
+router.register(r'chat', ChatMessageViewSet, basename='chat')  # 2. Registered the chat endpoint
 
 urlpatterns = [
     # 1. Automated viewset paths

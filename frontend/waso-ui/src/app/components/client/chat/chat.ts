@@ -1,86 +1,170 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, signal, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
-
-interface Message {
-  id: number;
-  sender: 'client' | 'manager';
-  text: string;
-  timestamp: string;
-}
+import { ChatService, ChatMessage } from '../../../core/services/chat';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './chat.html',
-  styleUrl: './chat.css'
+  styleUrls: ['./chat.css']
 })
-export class Chat {
-  // Track active navigation panel target view
-  protected readonly activeTab = signal<'chat' | 'inquiry'>('chat');
+export class Chat implements OnInit, OnDestroy {
+  private chatService = inject(ChatService);
+  private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID); 
 
-  // Chat Subsystem Signals
-  protected readonly newMessageText = signal<string>('');
-  protected readonly messageLog = signal<Message[]>([
-    { id: 1, sender: 'manager', text: 'Hello! Welcome to Waso Deco. How can we help design your upcoming atmosphere?', timestamp: '10:30 AM' }
-  ]);
+  // Dashboard Configuration View Controls
+  activeTab = signal<string>('chat');
+  inquirySubmitted = signal<boolean>(false);
 
-  // Inquiry Form Parameter Signals
-  protected readonly eventType = signal<string>('');
-  protected readonly eventDate = signal<string>('');
-  protected readonly guestCount = signal<string>('');
-  protected readonly colorPalette = signal<string>('');
-  protected readonly specificDetails = signal<string>('');
-  protected readonly inquirySubmitted = signal<boolean>(false);
+  // Form Model Properties (Direct 1:1 map with Django backend tables)
+  eventType: string = '';
+  eventDate: string = '';
+  guestCount: number | null = null;
+  colorPalette: string = '';
+  specificDetails: string = '';
+  budgetEstimate: number | null = null; 
+  town: string = 'Yaoundé';             
 
-  protected switchView(target: 'chat' | 'inquiry'): void {
-    this.activeTab.set(target);
-    if (target === 'inquiry') {
-      this.inquirySubmitted.set(false); // Reset form state if toggled back
+  // Client Identity UI Binding Variable
+  userEmail: string = ''; 
+
+  // Live Sync Chat Logs
+  messageLog = signal<any[]>([]); 
+  newMessageText: string = '';    
+  errorMessage = signal<string>(''); 
+  
+  private pollingIntervalId: any;
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      // Extract user identity directly from local storage profile tracking keys
+      this.userEmail = localStorage.getItem('waso_user_email') || 'client@wasodeco.cm';
+
+      this.fetchMessages();
+
+      // Maintain background streaming synchronization loop
+      this.pollingIntervalId = setInterval(() => {
+        this.fetchMessages();
+      }, 4000);
     }
   }
 
-  protected dispatchChatMessage(): void {
-    if (!this.newMessageText().trim()) return;
-
-    const userMsg: Message = {
-      id: Date.now(),
-      sender: 'client',
-      text: this.newMessageText().trim(),
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-
-    this.messageLog.update(logs => [...logs, userMsg]);
-    this.newMessageText.set('');
-
-    // Simulate design manager auto-response pipeline
-    setTimeout(() => {
-      const managerMsg: Message = {
-        id: Date.now() + 1,
-        sender: 'manager',
-        text: 'Thank you for your response. Our design panel is reviewing your request notes right now.',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      this.messageLog.update(logs => [...logs, managerMsg]);
-    }, 1500);
+  private getAuthHeaders(): HttpHeaders {
+    if (!isPlatformBrowser(this.platformId)) {
+      return new HttpHeaders();
+    }
+    const token = localStorage.getItem('waso_access_token');
+    return new HttpHeaders({
+      'Authorization': token ? `Bearer ${token}` : ''
+    });
   }
 
-  protected sendInquiryForm(): void {
-    console.log('Sending structured event inquiry parameters to Django:', {
-      type: this.eventType(),
-      date: this.eventDate(),
-      guests: this.guestCount(),
-      colors: this.colorPalette(),
-      notes: this.specificDetails()
-    });
+  switchView(tabName: string) {
+    this.activeTab.set(tabName);
+  }
 
-    this.inquirySubmitted.set(true);
-    
-    // Clear inputs after submission
-    this.eventType.set('');
-    this.eventDate.set('');
-    this.guestCount.set('');
-    this.colorPalette.set('');
-    this.specificDetails.set('');
+  fetchMessages() {
+    this.chatService.getMessages().subscribe({
+      next: (data: ChatMessage[]) => {
+        const formattedLog = data.map(msg => ({
+          id: msg.id,
+          text: msg.message,
+          sender: msg.is_from_staff ? 'manager' : 'client',
+          timestamp: msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''
+        }));
+        
+        this.messageLog.set(formattedLog);
+        this.errorMessage.set('');
+      },
+      error: (err: any) => {
+        console.error('Error syncing design channel records:', err);
+        if (err.status !== 401) {
+          this.errorMessage.set('Connection lost. Retrying to connect...');
+        }
+      }
+    });
+  }
+
+  dispatchChatMessage() {
+    const text = this.newMessageText.trim();
+    if (!text) return;
+
+    this.chatService.sendMessage(text).subscribe({
+      next: (savedMsg: ChatMessage) => {
+        const newBubble = {
+          id: savedMsg.id,
+          text: savedMsg.message,
+          sender: 'client',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        
+        this.messageLog.update((current) => [...current, newBubble]);
+        this.newMessageText = ''; 
+        this.errorMessage.set('');
+      },
+      error: (err: any) => {
+        console.error('Failed to submit message payload:', err);
+        this.errorMessage.set('Message could not be delivered.');
+      }
+    });
+  }
+
+  /**
+   * Submits your custom event form variables to the backend automated creation view
+   */
+  sendInquiryForm() {
+    let activeUserEmail = 'anonymous@wasodeco.cm';
+    if (isPlatformBrowser(this.platformId)) {
+      activeUserEmail = localStorage.getItem('waso_user_email') || 'anonymous@wasodeco.cm';
+    }
+
+    const enrichedNotes = this.specificDetails ? `Details: ${this.specificDetails}` : 'No additional structural details provided.';
+
+    // Final clean, secure schema packet mapping 1:1 with models.py constraints
+    const payload = {
+      client_name: "Verified Client",
+      client_email: activeUserEmail,
+      event_date: this.eventDate,
+      venue_name: this.eventType || 'Bespoke Setup', 
+      town: this.town || 'Yaoundé',
+      guest_count: Number(this.guestCount || 1),
+      budget_estimate: Number(this.budgetEstimate || 0), 
+      color_palette: this.colorPalette || 'Not Specified',
+      status: "NEW", 
+      notes: enrichedNotes
+    };
+
+    this.http.post(`${environment.apiUrl}/api/inquiries/`, payload, {
+      headers: this.getAuthHeaders()
+    }).subscribe({
+      next: () => {
+        this.inquirySubmitted.set(true);
+        
+        // Reset local bindings cleanly to protect state tracking grids
+        this.eventType = '';
+        this.eventDate = '';
+        this.guestCount = null;
+        this.colorPalette = '';
+        this.specificDetails = '';
+        this.budgetEstimate = null;
+        this.town = 'Yaoundé';
+        this.errorMessage.set('');
+      },
+      error: (err) => {
+        console.error('Failed to register custom inquiry structure:', err);
+        this.errorMessage.set('Could not transmit your inquiry parameters. Please confirm data values and try again.');
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.pollingIntervalId) {
+      clearInterval(this.pollingIntervalId);
+    }
   }
 }

@@ -5,7 +5,6 @@ from django.db import models
 from django.contrib.auth.models import User 
 from django.utils import timezone
 
-# Create your models here.
 class GalleryItem(models.Model):
     EVENT_TYPES = [
         ('WEDDING', 'Weddings'), 
@@ -33,9 +32,8 @@ class Inquiry(models.Model):
         ('BOOKED', 'Booked'),
     ]
     
-    # Links the Inquiry to their auto-generated User account
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='inquiry')
-
+    # Links the Inquiry to their User account (handled cleanly via Views/Serializers)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='inquiries')
     client_name = models.CharField(max_length=200)
     client_email = models.EmailField()
     event_date = models.DateField()
@@ -50,31 +48,6 @@ class Inquiry(models.Model):
     class Meta:
         verbose_name = "Inquiry"
         verbose_name_plural = "Inquiries"
-    
-    def save(self, *args, **kwargs):
-        # Only run this if the inquiry doesn't have a user attached yet
-        if not self.user and self.client_email:
-            user_exists = User.objects.filter(username=self.client_email).exists()
-            
-            if not user_exists:
-                # Generate a temporary password
-                generated_password = secrets.token_urlsafe(8)
-                
-                # Create the user account
-                new_user = User.objects.create_user(
-                    username=self.client_email,
-                    email=self.client_email,
-                    password=generated_password,
-                    first_name=self.client_name
-                )
-                self.user = new_user
-                
-                print(f"\n[AUTOMATION] Created user account for {self.client_email}")
-                print(f"[AUTOMATION] Temporary Password: {generated_password}\n")
-            else:
-                self.user = User.objects.get(username=self.client_email)
-
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Inquiry from {self.client_name} for {self.event_date}"
@@ -103,3 +76,14 @@ class UserProfileOTP(models.Model):
     def is_valid(self):
         """Validates that the code hasn't expired (15-minute window)."""
         return timezone.now() < self.created_at + timedelta(minutes=15)
+    
+
+class ChatMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="chat_messages")
+    sender_name = models.CharField(max_length=150)
+    message = models.TextField()
+    is_from_staff = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"[{self.created_at.strftime('%Y-%m-%d %H:%M')}] {self.sender_name}: {self.message[:30]}"

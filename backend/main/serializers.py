@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import GalleryItem, Inquiry, Testimonial
 from datetime import date
+from .models import ChatMessage
 
 class GalleryItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,6 +12,8 @@ class TestimonialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Testimonial
         fields = '__all__'
+        # Strict security guard: This field cannot be falsified by incoming payload data
+        read_only_fields = ['client_name']
 
 class InquirySerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,3 +32,11 @@ class InquirySerializer(serializers.ModelSerializer):
         if value <= 0:
             raise serializers.ValidationError("Guest count must be at least 1.")
         return value
+    
+
+class ChatMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatMessage
+        fields = ['id', 'user', 'sender_name', 'message', 'is_from_staff', 'created_at']
+        # These are set automatically by the backend server for security
+        read_only_fields = ['id', 'user', 'sender_name', 'is_from_staff', 'created_at']
