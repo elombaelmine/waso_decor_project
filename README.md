@@ -4,7 +4,7 @@
 🚀 Live Demo
     Backend API: [https://waso-decor-project-backend.onrender.com]
 
-    Frontend: [https://waso-decor-project-frontend.vercel.app]
+    Frontend: [https://waso-deco.vercel.app]
 
 🛠 Tech Stack
     Backend: Django, Django REST Framework, PostgreSQL, Gunicorn, Whitenoise.
