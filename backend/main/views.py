@@ -9,8 +9,13 @@ from django.core.mail import send_mail
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from .models import GalleryItem, Inquiry, Testimonial, UserProfileOTP, ChatMessage
-from .serializers import GalleryItemSerializer, InquirySerializer, TestimonialSerializer, ChatMessageSerializer
+from .serializers import GalleryItemSerializer, InquirySerializer, TestimonialSerializer, ChatMessageSerializer, UserProfileSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import IsAuthenticated
+from .models import Profile # Ensure you import your new Profile model
 
 
 class GalleryItemViewSet(viewsets.ModelViewSet):
@@ -252,3 +257,35 @@ class ChatMessageViewSet(viewsets.ModelViewSet):
             sender_name=user.first_name or user.username,
             is_from_staff=False
         )
+
+class ProfileUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request):
+        profile, created = Profile.objects.get_or_create(user=request.user)
+        # Using the serializer is much cleaner and ensures data consistency
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data)
+
+    def put(self, request):
+        user = request.user
+        profile, created = Profile.objects.get_or_create(user=user)
+        
+        # Update user fields
+        new_password = request.data.get('password')
+        if new_password and new_password.strip():
+            user.set_password(new_password)
+            user.save()
+
+        # Update profile fields
+        profile.full_name = request.data.get('full_name', profile.full_name)
+        profile.phone_number = request.data.get('phone_number', profile.phone_number)
+        
+        if 'profile_pic' in request.FILES:
+            profile.profile_pic = request.FILES['profile_pic']
+            
+        profile.save()
+        
+        # Return the updated data using the serializer
+        return Response(UserProfileSerializer(profile).data)
